@@ -1,0 +1,44 @@
+# Contributing
+
+## Developing
+
+If you'd like to submit a patch:
+
+1. Fork the project.
+2. Make your feature addition or bug fix.
+3. Add [tests](#testing) for it. This is important so that it isn't broken in a
+   future version unintentionally.
+4. Commit. **Do not touch any unrelated code, such as the gemspec or version.**
+   If you must change unrelated code, do it in a commit by itself, so that it
+   can be ignored.
+5. Send a pull request.
+
+## Testing
+
+### Install prerequisites
+
+Install the latest version of [Bundler](http://gembundler.com)
+
+    $ gem install bundler
+
+Clone the project
+
+    $ git clone git://github.com/RiotGames/berkshelf-vagrant.git
+
+and run:
+
+    $ cd berkshelf-vagrant
+    $ bundle-vagrant install
+
+Bundler will install all gems and their dependencies required for testing and developing.
+
+### Running unit (RSpec) tests
+
+Simply copy the `spec/knife.rb.sample` to `spec/knife.rb`, and point it at a
+chef server. Berkshelf tests may upload and destroy cookbooks on your chef
+server, so be sure to configure a server safe for this task.
+
+    $ bundle exec guard start
+
+See [here](https://github.com/tdegrunt/vagrant-chef-server-bootstrap) for a
+quick way to get a testing chef server up.
