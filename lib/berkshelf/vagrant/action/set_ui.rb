@@ -7,7 +7,7 @@ module Berkshelf::Vagrant
       end
 
       def call(env)
-        Berkshelf.ui = ::Vagrant::UI::Colored.new('Berkshelf')
+        Berkshelf.ui = env[:berkshelf].ui
         @app.call(env)
       end
     end

@@ -2,17 +2,17 @@ module Berkshelf::Vagrant
   module Action
     # @author Jamie Winsor <reset@riotgames.com>
     class Clean
-      attr_reader :shelf
+      include Berkshelf::Vagrant::EnvHelpers
 
       def initialize(app, env)
         @app = app
-        @shelf = Berkshelf::Vagrant.shelf_for(env)
       end
 
       def call(env)
-        if Berkshelf::Vagrant.chef_solo?(env[:vm].config) && self.shelf
-          Berkshelf.formatter.msg "cleaning Vagrant's shelf"
-          FileUtils.remove_dir(self.shelf, fore: true)
+        if chef_solo?(env) && env[:berkshelf].shelf && File.exist?(env[:berkshelf].shelf)
+          env[:berkshelf].ui.info "Cleaning Vagrant's berkshelf"
+
+          FileUtils.remove_dir(env[:berkshelf].shelf, force: true)
         end
 
         @app.call(env)
