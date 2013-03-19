@@ -19,8 +19,10 @@ module Berkshelf::Vagrant
     action_hook(:berkshelf_provision, :machine_action_provision, &method(:provision))
 
     action_hook(:berkshelf_cleanup, :machine_action_destroy) do |hook|
-      hook.append(Berkshelf::Vagrant::Action.clean)
-      hook.before(Vagrant::Action::Builtin::ConfigValidate, Berkshelf::Vagrant::Action.setup)
+      # @todo this should be appended to the middleware stack instead of hooked in after the
+      #   Virtualbox specific destroy step but there is a bug in Vagrant (1.1.0) which
+      #   causes appended middleware to run multiple times.
+      hook.after(VagrantPlugins::ProviderVirtualBox::Action::DestroyUnusedNetworkInterfaces, Berkshelf::Vagrant::Action.clean)
     end
 
     config(:berkshelf) do
