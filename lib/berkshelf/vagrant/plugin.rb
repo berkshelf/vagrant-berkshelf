@@ -5,6 +5,7 @@ module Berkshelf::Vagrant
       def provision(hook)
         hook.after(Vagrant::Action::Builtin::Provision, Berkshelf::Vagrant::Action.upload)
         hook.after(Vagrant::Action::Builtin::Provision, Berkshelf::Vagrant::Action.install)
+        hook.before(Vagrant::Action::Builtin::ConfigValidate, Berkshelf::Vagrant::Action.setup)
       end
     end
 
@@ -19,6 +20,7 @@ module Berkshelf::Vagrant
 
     action_hook(:berkshelf_cleanup, :machine_action_destroy) do |hook|
       hook.append(Berkshelf::Vagrant::Action.clean)
+      hook.before(Vagrant::Action::Builtin::ConfigValidate, Berkshelf::Vagrant::Action.setup)
     end
 
     config(:berkshelf) do

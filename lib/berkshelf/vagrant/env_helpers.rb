@@ -1,14 +1,5 @@
 module Berkshelf::Vagrant
   module EnvHelpers
-    # @param [Vagrant::Environment] env
-    #
-    # @return [String, nil]
-    def shelf_for(env)
-      return nil if env[:machine].id.nil?
-
-      File.join(Berkshelf.berkshelf_path, "vagrant", env[:machine].id)
-    end
-
     # @param [Symbol] name
     # @param [Vagrant::Environment, Hash] env
     #

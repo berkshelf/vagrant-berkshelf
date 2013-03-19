@@ -1,9 +1,10 @@
 module Berkshelf::Vagrant
   module Action
     autoload :Clean, 'berkshelf/vagrant/action/clean'
+    autoload :ConfigureChef, 'berkshelf/vagrant/action/configure_chef'
     autoload :Install, 'berkshelf/vagrant/action/install'
+    autoload :LoadShelf, 'berkshelf/vagrant/action/load_shelf'
     autoload :SetUI, 'berkshelf/vagrant/action/set_ui'
-    autoload :SetupShelf, 'berkshelf/vagrant/action/setup_shelf'
     autoload :Upload, 'berkshelf/vagrant/action/upload'
 
     class << self
@@ -17,9 +18,7 @@ module Berkshelf::Vagrant
       # @return [::Vagrant::Action::Builder]
       def install
         @install ||= ::Vagrant::Action::Builder.new.tap do |b|
-          b.use ::Vagrant::Action::Builtin::EnvSet, berkshelf: Berkshelf::Vagrant::Env.new
           b.use Berkshelf::Vagrant::Action::SetUI
-          b.use Berkshelf::Vagrant::Action::SetupShelf
           b.use Berkshelf::Vagrant::Action::Install
         end
       end
@@ -34,9 +33,7 @@ module Berkshelf::Vagrant
       # @return [::Vagrant::Action::Builder]
       def upload
         @upload ||= ::Vagrant::Action::Builder.new.tap do |b|
-          b.use ::Vagrant::Action::Builtin::EnvSet, berkshelf: Berkshelf::Vagrant::Env.new
           b.use Berkshelf::Vagrant::Action::SetUI
-          b.use Berkshelf::Vagrant::Action::SetupShelf
           b.use Berkshelf::Vagrant::Action::Upload
         end
       end
@@ -48,10 +45,16 @@ module Berkshelf::Vagrant
       # @return [::Vagrant::Action::Builder]
       def clean
         @clean ||= ::Vagrant::Action::Builder.new.tap do |b|
-          b.use ::Vagrant::Action::Builtin::EnvSet, berkshelf: Berkshelf::Vagrant::Env.new
           b.use Berkshelf::Vagrant::Action::SetUI
-          b.use Berkshelf::Vagrant::Action::SetupShelf
           b.use Berkshelf::Vagrant::Action::Clean
+        end
+      end
+
+      def setup
+        @setup ||= ::Vagrant::Action::Builder.new.tap do |b|
+          b.use ::Vagrant::Action::Builtin::EnvSet, berkshelf: Berkshelf::Vagrant::Env.new
+          b.use Berkshelf::Vagrant::Action::LoadShelf
+          b.use Berkshelf::Vagrant::Action::ConfigureChef
         end
       end
     end
