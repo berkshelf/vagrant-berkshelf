@@ -1,5 +1,10 @@
 module Berkshelf::Vagrant
   module EnvHelpers
+    # @return [String]
+    def cache_file
+      File.join('.vagrant', 'berkshelf')
+    end
+
     # @param [Symbol] name
     # @param [Vagrant::Environment, Hash] env
     #

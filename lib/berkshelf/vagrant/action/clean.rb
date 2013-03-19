@@ -13,10 +13,12 @@ module Berkshelf::Vagrant
           env[:berkshelf].ui.info "Cleaning Vagrant's berkshelf"
 
           FileUtils.remove_dir(env[:berkshelf].shelf, force: true)
+          FileUtils.rm_f(cache_file)
+          env[:berkshelf].shelf = nil
         end
 
         @app.call(env)
-      rescue BerkshelfError => e
+      rescue Berkshelf::BerkshelfError => e
         raise VagrantWrapperError.new(e)
       end
     end

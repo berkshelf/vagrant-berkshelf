@@ -20,10 +20,6 @@ module Berkshelf::Vagrant
         @app.call(env)
       end
 
-      def cache_file
-        File.join('.vagrant', 'berkshelf')
-      end
-
       # @param [String] path
       #
       # @return [String]
