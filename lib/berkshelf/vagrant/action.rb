@@ -18,7 +18,6 @@ module Berkshelf::Vagrant
       # @return [::Vagrant::Action::Builder]
       def install
         @install ||= ::Vagrant::Action::Builder.new.tap do |b|
-          b.use Berkshelf::Vagrant::Action::SetUI
           b.use Berkshelf::Vagrant::Action::Install
         end
       end
@@ -33,7 +32,6 @@ module Berkshelf::Vagrant
       # @return [::Vagrant::Action::Builder]
       def upload
         @upload ||= ::Vagrant::Action::Builder.new.tap do |b|
-          b.use Berkshelf::Vagrant::Action::SetUI
           b.use Berkshelf::Vagrant::Action::Upload
         end
       end
@@ -45,7 +43,7 @@ module Berkshelf::Vagrant
       # @return [::Vagrant::Action::Builder]
       def clean
         @clean ||= ::Vagrant::Action::Builder.new.tap do |b|
-          b.use Berkshelf::Vagrant::Action::SetUI
+          b.use setup
           b.use Berkshelf::Vagrant::Action::Clean
         end
       end
@@ -53,6 +51,7 @@ module Berkshelf::Vagrant
       def setup
         @setup ||= ::Vagrant::Action::Builder.new.tap do |b|
           b.use ::Vagrant::Action::Builtin::EnvSet, berkshelf: Berkshelf::Vagrant::Env.new
+          b.use Berkshelf::Vagrant::Action::SetUI
           b.use Berkshelf::Vagrant::Action::LoadShelf
           b.use Berkshelf::Vagrant::Action::ConfigureChef
         end
