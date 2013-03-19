@@ -11,7 +11,7 @@ module Berkshelf::Vagrant
       def call(env)
         if chef_solo?(env) && env[:berkshelf].shelf
           provisioners(:chef_solo, env).each do |provisioner|
-            provisioner.config.cookbooks_path.unshift(provisioner.config.send(:prepare_folders_config, env[:berkshelf].shelf))
+            provisioner.config.cookbooks_path = provisioner.config.send(:prepare_folders_config, env[:berkshelf].shelf)
           end
         end
 
