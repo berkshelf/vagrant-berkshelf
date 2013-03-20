@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 1.9.3"
 
-  spec.add_dependency 'berkshelf', '>= 1.3.0.rc1'
+  spec.add_dependency 'berkshelf', '>= 1.3.0'
   spec.add_dependency 'activesupport', '>= 4.0.0.beta'
 
   # Explicit locks to ensure we activate the proper gem versions for Vagrant
