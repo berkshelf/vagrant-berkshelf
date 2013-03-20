@@ -36,4 +36,32 @@ describe Berkshelf::Vagrant::Config do
       end
     end
   end
+
+  describe "#validate" do
+    let(:env) { double('env') }
+    let(:machine) { double('machine', berkshelf: subject, env: env) }
+
+    before(:each) do
+      subject.finalize!
+      subject.should_receive(:chef_client?).with(env).and_return(true)
+    end
+
+    let(:result) { subject.validate(machine) }
+
+    it "returns a Hash with a 'berkshelf configuration' key" do
+      result.should be_a(Hash)
+      result.should have_key("berkshelf configuration")
+    end
+
+    context "when all validations pass" do
+      before(:each) do
+        File.should_receive(:exist?).with(subject.berksfile_path).and_return(true)
+      end
+
+      it "contains an empty Array for the 'berkshelf configuration' key" do
+        result["berkshelf configuration"].should be_a(Array)
+        result["berkshelf configuration"].should be_empty
+      end
+    end
+  end
 end

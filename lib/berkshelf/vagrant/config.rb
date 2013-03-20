@@ -50,24 +50,24 @@ module Berkshelf
         errors = Array.new
 
         if machine.berkshelf.berksfile_path.nil?
-          errors.add("berkshelf.berksfile_path cannot be nil.")
+          errors << "berkshelf.berksfile_path cannot be nil."
         end
 
         unless File.exist?(machine.berkshelf.berksfile_path)
-          errors.add("No Berskfile was found at #{machine.berkshelf.berksfile_path}.")
+          errors << "No Berskfile was found at #{machine.berkshelf.berksfile_path}."
         end
 
         if !except.empty? && !only.empty?
-          errors.add("A value for berkshelf.empty and berkshelf.only cannot both be defined.")
+          errors << "A value for berkshelf.empty and berkshelf.only cannot both be defined."
         end
 
         if chef_client?(machine.env)
           if Berkshelf::Config.instance.chef.node_name.nil?
-            errors.add("A configuration must be set for chef.node_name when using the chef_client provisioner. Run 'berks configure' or edit your configuration.")
+            errors << "A configuration must be set for chef.node_name when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
           end
 
           if Berkshelf::Config.instance.chef.client_key.nil?
-            errors.add("A configuration must be set for chef.client_key when using the chef_client provisioner. Run 'berks configure' or edit your configuration.")
+            errors << "A configuration must be set for chef.client_key when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
           end
         end
 
