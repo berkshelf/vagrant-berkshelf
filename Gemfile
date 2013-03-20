@@ -1,13 +1,9 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in berkshelf-vagrant.gemspec
 gemspec
 
 group :development do
   gem 'vagrant', github: "mitchellh/vagrant", tag: "v1.1.2"
-end
-
-group :test do
   gem 'coolline'
   gem 'guard', '>= 1.5.0'
   gem 'guard-rspec'
@@ -16,7 +12,6 @@ group :test do
   gem 'redcarpet'
   gem 'yard'
   gem 'fuubar'
-  gem 'rspec'
 
   require 'rbconfig'
 
