@@ -19,9 +19,13 @@ module Berkshelf
       attr_accessor :except
 
       def initialize
+        super
+
         @berksfile_path = UNSET_VALUE
         @except         = UNSET_VALUE
         @only           = UNSET_VALUE
+
+        finalize! # temporary workaround for configuration loading race condition
       end
 
       def finalize!
