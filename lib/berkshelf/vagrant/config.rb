@@ -4,6 +4,8 @@ module Berkshelf
     class Config < ::Vagrant.plugin("2", :config)
       include Berkshelf::Vagrant::EnvHelpers
 
+      UNSET_VALUE = ::Vagrant::Plugin::V2::Config::UNSET_VALUE
+
       # @return [String]
       #   path to the Berksfile to use with Vagrant
       attr_reader :berksfile_path
@@ -24,8 +26,6 @@ module Berkshelf
         @berksfile_path = UNSET_VALUE
         @except         = UNSET_VALUE
         @only           = UNSET_VALUE
-
-        finalize! # temporary workaround for configuration loading race condition
       end
 
       def finalize!
@@ -48,6 +48,14 @@ module Berkshelf
 
       def validate(machine)
         errors = Array.new
+
+        if machine.berkshelf.berksfile_path.nil?
+          errors.add("berkshelf.berksfile_path cannot be nil.")
+        end
+
+        unless File.exist?(machine.berkshelf.berksfile_path)
+          errors.add("No Berskfile was found at #{machine.berkshelf.berksfile_path}.")
+        end
 
         if !except.empty? && !only.empty?
           errors.add("A value for berkshelf.empty and berkshelf.only cannot both be defined.")
