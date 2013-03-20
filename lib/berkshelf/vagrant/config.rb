@@ -4,6 +4,8 @@ module Berkshelf
     class Config < ::Vagrant.plugin("2", :config)
       include Berkshelf::Vagrant::EnvHelpers
 
+      UNSET_VALUE = ::Vagrant::Plugin::V2::Config::UNSET_VALUE
+
       # @return [String]
       #   path to the Berksfile to use with Vagrant
       attr_reader :berksfile_path
@@ -24,8 +26,6 @@ module Berkshelf
         @berksfile_path = UNSET_VALUE
         @except         = UNSET_VALUE
         @only           = UNSET_VALUE
-
-        finalize! # temporary workaround for configuration loading race condition
       end
 
       def finalize!
@@ -49,17 +49,25 @@ module Berkshelf
       def validate(machine)
         errors = Array.new
 
+        if machine.berkshelf.berksfile_path.nil?
+          errors << "berkshelf.berksfile_path cannot be nil."
+        end
+
+        unless File.exist?(machine.berkshelf.berksfile_path)
+          errors << "No Berskfile was found at #{machine.berkshelf.berksfile_path}."
+        end
+
         if !except.empty? && !only.empty?
-          errors.add("A value for berkshelf.empty and berkshelf.only cannot both be defined.")
+          errors << "A value for berkshelf.empty and berkshelf.only cannot both be defined."
         end
 
         if chef_client?(machine.env)
           if Berkshelf::Config.instance.chef.node_name.nil?
-            errors.add("A configuration must be set for chef.node_name when using the chef_client provisioner. Run 'berks configure' or edit your configuration.")
+            errors << "A configuration must be set for chef.node_name when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
           end
 
           if Berkshelf::Config.instance.chef.client_key.nil?
-            errors.add("A configuration must be set for chef.client_key when using the chef_client provisioner. Run 'berks configure' or edit your configuration.")
+            errors << "A configuration must be set for chef.client_key when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
           end
         end
 

@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'bundler'
+require 'bundler/setup'
 require 'spork'
 
 Spork.prefork do
@@ -9,23 +9,11 @@ Spork.prefork do
   require 'rspec'
 
   RSpec.configure do |config|
-    config.mock_with :rspec
     config.treat_symbols_as_metadata_keys_with_true_values = true
-    config.filter_run focus: true
     config.run_all_when_everything_filtered = true
+    config.filter_run focus: true
 
-    config.around(:each) do
-      clean_tmp_path
-    end
-  end
-
-  def clean_tmp_path
-    FileUtils.rm_rf(tmp_path)
-    FileUtils.mkdir_p(tmp_path)
-  end
-
-  def tmp_path
-    File.join(APP_ROOT, 'spec', 'tmp')
+    config.order = 'random'
   end
 end
 
