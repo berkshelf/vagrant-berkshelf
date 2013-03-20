@@ -14,17 +14,17 @@ class Default < Thor
 
     namespace :gem
 
-    desc "build", "Build berkshelf-#{Berkshelf::VERSION}.gem into the pkg directory"
+    desc "build", "Build berkshelf-vagrant-#{Berkshelf::Vagrant::VERSION}.gem into the pkg directory"
     def build
       Rake::Task["build"].execute
     end
 
-    desc "release", "Create tag v#{Berkshelf::VERSION} and build and push berkshelf-#{Berkshelf::VERSION}.gem to Rubygems"
+    desc "release", "Create tag v#{Berkshelf::Vagrant::VERSION} and build and push berkshelf-vagrant-#{Berkshelf::Vagrant::VERSION}.gem to Rubygems"
     def release
       Rake::Task["release"].execute
     end
 
-    desc "install", "Build and install berkshelf-#{Berkshelf::VERSION}.gem into system gems"
+    desc "install", "Build and install berkshelf-vagrant-#{Berkshelf::Vagrant::VERSION}.gem into system gems"
     def install
       Rake::Task["install"].execute
     end
