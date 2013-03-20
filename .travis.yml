@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 1.9.2
+  - 1.9.3
+  - 2.0.0
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#berkshelf"
+    skip_join: true
+    use_notice: true
+script: 'bundle exec thor spec:ci'
