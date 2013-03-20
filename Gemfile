@@ -3,10 +3,8 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in berkshelf-vagrant.gemspec
 gemspec
 
-gem 'berkshelf', path: '~/code/berkshelf'
-
 group :development do
-  gem 'vagrant', github: "mitchellh/vagrant", tag: "v1.1.0"
+  gem 'vagrant', github: "mitchellh/vagrant", tag: "v1.1.2"
 end
 
 group :test do
