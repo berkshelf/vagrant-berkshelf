@@ -4,8 +4,6 @@ module Berkshelf
     class Config < ::Vagrant.plugin("2", :config)
       include Berkshelf::Vagrant::EnvHelpers
 
-      UNSET_VALUE = ::Vagrant::Plugin::V2::Config::UNSET_VALUE
-
       # @return [String]
       #   path to the Berksfile to use with Vagrant
       attr_reader :berksfile_path
