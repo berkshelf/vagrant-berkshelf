@@ -18,18 +18,24 @@ module Berkshelf
       #   and copied to Vagrant's shelf
       attr_accessor :except
 
+      # @return [String]
+      #   the Chef node name (client name) to use to authenticate with the remote
+      #   chef server to upload cookbooks when using the chef client provisioner
+      attr_accessor :node_name
+
+      # @return [String]
+      #   a filepath to a chef client key to use to authenticate with the remote
+      #   chef server to upload cookbooks when using the chef client provisioner
+      attr_accessor :client_key
+
       def initialize
         super
 
-        @berksfile_path = UNSET_VALUE
-        @except         = UNSET_VALUE
-        @only           = UNSET_VALUE
-      end
-
-      def finalize!
-        @berksfile_path = File.join(Dir.pwd, Berkshelf::DEFAULT_FILENAME) if @berksfile_path == UNSET_VALUE
-        @except         = Array.new if @except == UNSET_VALUE
-        @only           = Array.new if @only == UNSET_VALUE
+        @berksfile_path = File.join(Dir.pwd, Berkshelf::DEFAULT_FILENAME)
+        @except         = Array.new
+        @only           = Array.new
+        @node_name      = Berkshelf::Config.instance.chef.node_name
+        @client_key     = Berkshelf::Config.instance.chef.client_key
       end
 
       # @param [String] value
@@ -47,12 +53,12 @@ module Berkshelf
       def validate(machine)
         errors = Array.new
 
-        if machine.berkshelf.berksfile_path.nil?
+        if machine.config.berkshelf.berksfile_path.nil?
           errors << "berkshelf.berksfile_path cannot be nil."
         end
 
-        unless File.exist?(machine.berkshelf.berksfile_path)
-          errors << "No Berskfile was found at #{machine.berkshelf.berksfile_path}."
+        unless File.exist?(machine.config.berkshelf.berksfile_path)
+          errors << "No Berskfile was found at #{machine.config.berkshelf.berksfile_path}."
         end
 
         if !except.empty? && !only.empty?
@@ -60,11 +66,11 @@ module Berkshelf
         end
 
         if chef_client?(machine.env)
-          if Berkshelf::Config.instance.chef.node_name.nil?
+          if machine.config.berkshelf.node_name.nil?
             errors << "A configuration must be set for chef.node_name when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
           end
 
-          if Berkshelf::Config.instance.chef.client_key.nil?
+          if machine.config.berkshelf.client_key.nil?
             errors << "A configuration must be set for chef.client_key when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
           end
         end
