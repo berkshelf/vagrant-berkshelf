@@ -1,43 +1,45 @@
-module Berkshelf::Vagrant
-  module Action
-    # @author Jamie Winsor <reset@riotgames.com>
-    class LoadShelf
-      include Berkshelf::Vagrant::EnvHelpers
+module Berkshelf
+  module Vagrant
+    module Action
+      # @author Jamie Winsor <reset@riotgames.com>
+      class LoadShelf
+        include Berkshelf::Vagrant::EnvHelpers
 
-      def initialize(app, env)
-        @app = app
-      end
-
-      def call(env)
-        shelf = load_shelf
-
-        if shelf.nil?
-          shelf = cache_shelf(Berkshelf::Vagrant.mkshelf)
+        def initialize(app, env)
+          @app = app
         end
 
-        env[:berkshelf].shelf = shelf
+        def call(env)
+          shelf = load_shelf
 
-        @app.call(env)
-      end
+          if shelf.nil?
+            shelf = cache_shelf(Berkshelf::Vagrant.mkshelf)
+          end
 
-      # @param [String] path
-      #
-      # @return [String]
-      def cache_shelf(path)
-        FileUtils.mkdir_p(File.dirname(path))
+          env[:berkshelf].shelf = shelf
 
-        File.open(cache_file, 'w+') do |f|
-          f.write(path)
+          @app.call(env)
         end
 
-        path
-      end
+        # @param [String] path
+        #
+        # @return [String]
+        def cache_shelf(path)
+          FileUtils.mkdir_p(File.dirname(path))
 
-      # @return [String, nil]
-      def load_shelf
-        return nil unless File.exist?(cache_file)
+          File.open(cache_file, 'w+') do |f|
+            f.write(path)
+          end
 
-        File.read(cache_file).chomp
+          path
+        end
+
+        # @return [String, nil]
+        def load_shelf
+          return nil unless File.exist?(cache_file)
+
+          File.read(cache_file).chomp
+        end
       end
     end
   end

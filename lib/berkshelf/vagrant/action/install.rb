@@ -1,34 +1,36 @@
-module Berkshelf::Vagrant
-  module Action
-    # @author Jamie Winsor <reset@riotgames.com>
-    class Install
-      include Berkshelf::Vagrant::EnvHelpers
+module Berkshelf
+  module Vagrant
+    module Action
+      # @author Jamie Winsor <reset@riotgames.com>
+      class Install
+        include Berkshelf::Vagrant::EnvHelpers
 
-      def initialize(app, env)
-        @app = app
-      end
-
-      def call(env)
-        env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(env[:global_config].berkshelf.berksfile_path)
-
-        if chef_solo?(env)
-          install(env)
+        def initialize(app, env)
+          @app = app
         end
 
-        @app.call(env)
-      rescue Berkshelf::BerkshelfError => e
-        raise Berkshelf::VagrantWrapperError.new(e)
-      end
+        def call(env)
+          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(env[:global_config].berkshelf.berksfile_path)
 
-      private
+          if chef_solo?(env)
+            install(env)
+          end
 
-        def install(env)
-          env[:berkshelf].ui.info "Updating Vagrant's berkshelf: '#{env[:berkshelf].shelf}'"
-          opts = {
-            path: env[:berkshelf].shelf
-          }.merge(env[:global_config].berkshelf.to_hash).symbolize_keys!
-          env[:berkshelf].berksfile.install(opts)
+          @app.call(env)
+        rescue Berkshelf::BerkshelfError => e
+          raise Berkshelf::VagrantWrapperError.new(e)
         end
+
+        private
+
+          def install(env)
+            env[:berkshelf].ui.info "Updating Vagrant's berkshelf: '#{env[:berkshelf].shelf}'"
+            opts = {
+              path: env[:berkshelf].shelf
+            }.merge(env[:global_config].berkshelf.to_hash).symbolize_keys!
+            env[:berkshelf].berksfile.install(opts)
+          end
+      end
     end
   end
 end
