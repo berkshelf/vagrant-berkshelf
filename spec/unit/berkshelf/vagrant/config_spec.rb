@@ -9,6 +9,11 @@ describe Berkshelf::Vagrant::Config do
     subject.berksfile_path.should eql(File.join(Dir.pwd, "Berksfile"))
   end
 
+  it "set the value of disabled to a false" do
+    subject.disabled.should be_a(FalseClass)
+    subject.disabled.should eql(false)
+  end
+
   it "sets the value of only to an empty array" do
     subject.only.should be_a(Array)
     subject.only.should be_empty

@@ -10,10 +10,12 @@ module Berkshelf
         end
 
         def call(env)
-          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(env[:global_config].berkshelf.berksfile_path)
+          if false == env[:global_config].berkshelf.disabled
+            env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(env[:global_config].berkshelf.berksfile_path)
 
-          if chef_solo?(env)
-            install(env)
+            if chef_solo?(env)
+              install(env)
+            end
           end
 
           @app.call(env)
