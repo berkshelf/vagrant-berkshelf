@@ -10,9 +10,11 @@ module Berkshelf
         end
 
         def call(env)
-          if chef_solo?(env) && env[:berkshelf].shelf
-            provisioners(:chef_solo, env).each do |provisioner|
-              provisioner.config.cookbooks_path << [:host, env[:berkshelf].shelf]
+          if false == env[:global_config].berkshelf.disabled
+            if chef_solo?(env) && env[:berkshelf].shelf
+              provisioners(:chef_solo, env).each do |provisioner|
+                provisioner.config.cookbooks_path << [:host, env[:berkshelf].shelf]
+              end
             end
           end
 

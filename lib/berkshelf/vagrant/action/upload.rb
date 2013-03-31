@@ -10,8 +10,10 @@ module Berkshelf
         end
 
         def call(env)
-          if chef_client?(env)
-            upload(env)
+          if false == env[:global_config].berkshelf.disabled
+            if chef_client?(env)
+              upload(env)
+            end
           end
 
           @app.call(env)

@@ -8,6 +8,10 @@ module Berkshelf
       #   path to the Berksfile to use with Vagrant
       attr_reader :berksfile_path
 
+      # @return [Boolean]
+      #   disable of use Berks in Vagrant
+      attr_accessor :disabled
+
       # @return [Array<Symbol>]
       #   only cookbooks in these groups will be installed and copied to
       #   Vagrant's shelf
@@ -36,6 +40,7 @@ module Berkshelf
         @only           = Array.new
         @node_name      = Berkshelf::Config.instance.chef.node_name
         @client_key     = Berkshelf::Config.instance.chef.client_key
+        @disabled       = false
       end
 
       # @param [String] value
@@ -53,26 +58,34 @@ module Berkshelf
       def validate(machine)
         errors = Array.new
 
-        if machine.config.berkshelf.berksfile_path.nil?
-          errors << "berkshelf.berksfile_path cannot be nil."
+        unless [TrueClass, FalseClass].include?(disabled.class)
+          errors << "A value for berkshelf.disabled can be true or false."
         end
 
-        unless File.exist?(machine.config.berkshelf.berksfile_path)
-          errors << "No Berskfile was found at #{machine.config.berkshelf.berksfile_path}."
-        end
+        if false == disabled
 
-        if !except.empty? && !only.empty?
-          errors << "A value for berkshelf.empty and berkshelf.only cannot both be defined."
-        end
-
-        if chef_client?(machine.env)
-          if machine.config.berkshelf.node_name.nil?
-            errors << "A configuration must be set for chef.node_name when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
+          if machine.config.berkshelf.berksfile_path.nil?
+            errors << "berkshelf.berksfile_path cannot be nil."
           end
 
-          if machine.config.berkshelf.client_key.nil?
-            errors << "A configuration must be set for chef.client_key when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
+          unless File.exist?(machine.config.berkshelf.berksfile_path)
+            errors << "No Berskfile was found at #{machine.config.berkshelf.berksfile_path}."
           end
+
+          if !except.empty? && !only.empty?
+            errors << "A value for berkshelf.empty and berkshelf.only cannot both be defined."
+          end
+
+          if chef_client?(machine.env)
+            if machine.config.berkshelf.node_name.nil?
+              errors << "A configuration must be set for chef.node_name when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
+            end
+
+            if machine.config.berkshelf.client_key.nil?
+              errors << "A configuration must be set for chef.client_key when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
+            end
+          end
+
         end
 
         { "berkshelf configuration" => errors }
