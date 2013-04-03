@@ -21,9 +21,7 @@ module Berkshelf
       #
       # @return [Array]
       def provisioners(name, env)
-        config_global = env.respond_to?(:config_global) ? env.config_global : env[:global_config]
-
-        config_global.vm.provisioners.select { |prov| prov.name == name }
+        env[:machine].config.vm.provisioners.select { |prov| prov.name == name }
       end
 
       # Determine if the given vagrant environment contains a chef_solo provisioner
