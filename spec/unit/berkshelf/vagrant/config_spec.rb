@@ -2,11 +2,14 @@ require 'spec_helper'
 
 describe Berkshelf::Vagrant::Config do
   let(:unset_value) { described_class::UNSET_VALUE }
-
-  subject { described_class.new }
+  let(:config) { described_class.new }
 
   it "sets a path to a Berksfile in the current working directory for berksfile_path" do
     subject.berksfile_path.should eql(File.join(Dir.pwd, "Berksfile"))
+  end
+
+  it "set the value of disabled to a false" do
+    config.enabled.should be false
   end
 
   it "sets the value of only to an empty array" do
@@ -33,6 +36,7 @@ describe Berkshelf::Vagrant::Config do
     let(:machine) { double('machine', config: config, env: env) }
 
     before(:each) do
+      subject.enabled = true
       subject.finalize!
       subject.should_receive(:chef_client?).with(env).and_return(true)
     end

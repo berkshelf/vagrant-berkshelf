@@ -10,10 +10,15 @@ module Berkshelf
         end
 
         def call(env)
-          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(env[:global_config].berkshelf.berksfile_path)
+          if berkshelf_enabled?(env)
 
-          if chef_solo?(env)
-            install(env)
+            berksfile_path = env[:global_config].berkshelf.berksfile_path
+            env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(berksfile_path)
+
+            if chef_solo?(env)
+              install(env)
+            end
+
           end
 
           @app.call(env)
@@ -30,6 +35,7 @@ module Berkshelf
             }.merge(env[:global_config].berkshelf.to_hash).symbolize_keys!
             env[:berkshelf].berksfile.install(opts)
           end
+
       end
     end
   end

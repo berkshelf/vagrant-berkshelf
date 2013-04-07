@@ -10,7 +10,7 @@ module Berkshelf
         end
 
         def call(env)
-          if chef_client?(env)
+          if berkshelf_enabled?(env) && chef_client?(env)
             upload(env)
           end
 
@@ -34,6 +34,7 @@ module Berkshelf
               )
             end
           end
+
       end
     end
   end
