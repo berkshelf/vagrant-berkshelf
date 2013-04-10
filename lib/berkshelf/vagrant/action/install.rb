@@ -10,21 +10,20 @@ module Berkshelf
         end
 
         def call(env)
-          berkshelf_enabled = berkshelf_enabled?(env)
           berksfile_path = env[:global_config].berkshelf.berksfile_path
 
-          if not berkshelf_enabled && File.exist(berksfile_path)
-            warn_disabled_but_berksfile_exists(env, berksfile_path)
-          end
-
-          if berkshelf_enabled
-
-            env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(berksfile_path)
-
-            if chef_solo?(env)
-              install(env)
+          unless berkshelf_enabled?(env)
+            if File.exist?(berksfile_path)
+              warn_disabled_but_berksfile_exists(env, berksfile_path)
             end
 
+            return @app.call(env)
+          end
+
+          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(berksfile_path)
+
+          if chef_solo?(env)
+            install(env)
           end
 
           @app.call(env)

@@ -10,7 +10,11 @@ module Berkshelf
         end
 
         def call(env)
-          if berkshelf_enabled?(env) && chef_client?(env)
+          unless berkshelf_enabled?(env)
+            return @app.call(env)
+          end
+
+          if chef_client?(env)
             upload(env)
           end
 

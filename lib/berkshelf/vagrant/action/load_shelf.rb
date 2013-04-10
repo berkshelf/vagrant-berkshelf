@@ -10,15 +10,17 @@ module Berkshelf
         end
 
         def call(env)
-          if berkshelf_enabled?(env)
-            shelf = load_shelf
-
-            if shelf.nil?
-              shelf = cache_shelf(Berkshelf::Vagrant.mkshelf)
-            end
-
-            env[:berkshelf].shelf = shelf
+          unless berkshelf_enabled?(env)
+            return @app.call(env)
           end
+
+          shelf = load_shelf
+
+          if shelf.nil?
+            shelf = cache_shelf(Berkshelf::Vagrant.mkshelf)
+          end
+
+          env[:berkshelf].shelf = shelf
 
           @app.call(env)
         end
