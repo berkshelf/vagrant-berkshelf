@@ -22,7 +22,7 @@ module Berkshelf
       # @return [Array]
       def provisioners(name, env)
         config_global = env.respond_to?(:config_global) ? env.config_global : env[:global_config]
-        
+
         config_global.vm.provisioners.select { |prov| prov.name == name }
       end
 
@@ -43,6 +43,17 @@ module Berkshelf
       def chef_client?(env)
         provisioners(:chef_client, env).any?
       end
+
+      # Determin if bershelf is enabled
+      #
+      # @param [Vagrant::Environment] env
+      #
+      # @return [Boolean]
+      def berkshelf_enabled?(env)
+        env[:global_config].berkshelf.enabled
+      end
+
+
     end
   end
 end
