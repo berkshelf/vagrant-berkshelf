@@ -10,7 +10,11 @@ module Berkshelf
         end
 
         def call(env)
-          if berkshelf_enabled?(env) && chef_solo?(env) && shelf = env[:berkshelf].shelf
+          unless berkshelf_enabled?(env)
+            return @app.call(env)
+          end
+
+          if chef_solo?(env) && shelf = env[:berkshelf].shelf
             provisioners(:chef_solo, env).each do |provisioner|
               provisioner.config.cookbooks_path = provisioner.config.send(:prepare_folders_config, shelf)
             end
