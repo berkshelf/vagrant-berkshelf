@@ -42,7 +42,6 @@ module Berkshelf
 
           File.read(cache_file).chomp
         end
-
       end
     end
   end

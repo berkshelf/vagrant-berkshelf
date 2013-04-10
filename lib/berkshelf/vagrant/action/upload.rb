@@ -34,7 +34,6 @@ module Berkshelf
               )
             end
           end
-
       end
     end
   end

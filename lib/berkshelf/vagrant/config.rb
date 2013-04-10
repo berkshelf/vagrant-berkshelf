@@ -63,7 +63,6 @@ module Berkshelf
         end
 
         if enabled
-
           if machine.config.berkshelf.berksfile_path.nil?
             errors << "berkshelf.berksfile_path cannot be nil."
           end
@@ -84,10 +83,8 @@ module Berkshelf
             if machine.config.berkshelf.client_key.nil?
               errors << "A configuration must be set for chef.client_key when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
             end
-
           end
-
-        end #end enabled
+        end
 
         { "berkshelf configuration" => errors }
       end

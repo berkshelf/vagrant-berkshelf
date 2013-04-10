@@ -44,7 +44,7 @@ module Berkshelf
         provisioners(:chef_client, env).any?
       end
 
-      # Determin if bershelf is enabled
+      # Determine if the Berkshelf plugin should be run for the given environment
       #
       # @param [Vagrant::Environment] env
       #
@@ -52,8 +52,6 @@ module Berkshelf
       def berkshelf_enabled?(env)
         env[:global_config].berkshelf.enabled
       end
-
-
     end
   end
 end
