@@ -41,7 +41,7 @@ module Berkshelf
 
           def warn_disabled_but_berksfile_exists(env)
             env[:berkshelf].ui.warn "Berkshelf plugin is disabled but a Berksfile was found at" +
-              " path #{env[:global_config].berkshelf.berksfile_path}"
+              " your configured path: #{env[:global_config].berkshelf.berksfile_path}"
             env[:berkshelf].ui.warn "Enable the Berkshelf plugin by setting 'config.berkshelf.enabled = true'" +
               " in your vagrant config"
           end
