@@ -40,7 +40,7 @@ module Berkshelf
         @only           = Array.new
         @node_name      = Berkshelf::Config.instance.chef.node_name
         @client_key     = Berkshelf::Config.instance.chef.client_key
-        @enabled       = false
+        @enabled        = false
       end
 
       # @param [String] value
