@@ -16,9 +16,16 @@ Install the Berkshelf Vagrant plugin
 
 ## Usage
 
-The Berkshelf Vagrant plugin automatically hooks into the Vagrant provisioning middleware; theres no need to perform any additional steps after installation.
+Once the Berkshelf Vagrant plugin is installed it can be enabled in your Vagrantfile
 
-Just ensure that you have a Berksfile in the directory with your Vagrantfile and when you run `vagrant up`, `vagrant provision`, or `vagrant destroy` the Berkshelf integration will automatically kick in!
+
+    Vagrant.configure("2") do |config|
+      ...
+      config.berkshelf.enabled = true
+      ...
+    end
+
+The plugin will look in your current working directory for your `Berksfile` by default. Just ensure that your Berksfile exists and when you run `vagrant up`, `vagrant provision`, or `vagrant destroy` the Berkshelf integration will automatically kick in!
 
 # Authors
 - Jamie Winsor (<reset@riotgames.com>)
