@@ -2,8 +2,6 @@ module Berkshelf
   module Vagrant
     # @author Jamie Winsor <reset@riotgames.com>
     class Config < ::Vagrant.plugin("2", :config)
-      include Berkshelf::Vagrant::EnvHelpers
-
       # @return [String]
       #   path to the Berksfile to use with Vagrant
       attr_reader :berksfile_path
@@ -75,7 +73,7 @@ module Berkshelf
             errors << "A value for berkshelf.empty and berkshelf.only cannot both be defined."
           end
 
-          if chef_client?(machine.env)
+          if machine.env.config_global.vm.provisioners.any? { |prov| prov.name == :chef_client }
             if machine.config.berkshelf.node_name.nil?
               errors << "A configuration must be set for chef.node_name when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
             end
