@@ -14,7 +14,7 @@ module Berkshelf
       attr_accessor :config
 
       def initialize
-        if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new("1.2")
+        if Gem::Version.new(::Vagrant::VERSION) >= Gem::Version.new("1.2")
           @ui     = ::Vagrant::UI::Colored.new.scope('Berkshelf')
         else
           @ui     = ::Vagrant::UI::Colored.new('Berkshelf')
