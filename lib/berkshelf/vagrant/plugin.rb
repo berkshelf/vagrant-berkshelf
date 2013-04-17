@@ -17,6 +17,7 @@ module Berkshelf
       DESC
 
       action_hook(:berkshelf_provision, :machine_action_up, &method(:provision))
+      action_hook(:berkshelf_provision, :machine_action_reload, &method(:provision))
       action_hook(:berkshelf_provision, :machine_action_provision, &method(:provision))
 
       action_hook(:berkshelf_cleanup, :machine_action_destroy) do |hook|
