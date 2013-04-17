@@ -32,6 +32,7 @@ module Berkshelf
         private
 
           def install(env)
+            check_vagrant_version(env)
             env[:berkshelf].ui.info "Updating Vagrant's berkshelf: '#{env[:berkshelf].shelf}'"
             opts = {
               path: env[:berkshelf].shelf
@@ -44,6 +45,20 @@ module Berkshelf
               " your configured path: #{env[:global_config].berkshelf.berksfile_path}"
             env[:berkshelf].ui.warn "Enable the Berkshelf plugin by setting 'config.berkshelf.enabled = true'" +
               " in your vagrant config"
+          end
+
+          def check_vagrant_version(env)
+            vagrant_ver = Gem::Version.new(::Vagrant::VERSION)
+
+            if vagrant_ver < Gem::Version.new("1.1")
+              raise Berkshelf::VagrantWrapperError.new(RuntimeError.new("berkshelf-vagrant requires Vagrant 1.1 or later."))
+            end
+
+            if vagrant_ver >= Gem::Version.new(::Berkshelf::Vagrant::TESTED_VERSION)
+              env[:berkshelf].ui.warn "Berkshelf plugin has not been fully tested on this version of Vagrant yet."
+              env[:berkshelf].ui.warn "If you encounter any errors, please report them at https://github.com/RiotGames/berkshelf-vagrant/issues"
+              env[:berkshelf].ui.warn "You can also join the discussion in #berkshelf on Freenode."
+            end
           end
       end
     end
