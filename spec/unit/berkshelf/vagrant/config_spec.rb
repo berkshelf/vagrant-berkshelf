@@ -8,8 +8,24 @@ describe Berkshelf::Vagrant::Config do
     subject.berksfile_path.should eql(File.join(Dir.pwd, "Berksfile"))
   end
 
-  it "set the value of disabled to a false" do
-    config.enabled.should be false
+  context "when the Berksfile exists" do
+    before do
+      File.should_receive(:exist?).with(File.join(Dir.pwd, "Berksfile")).and_return(true)
+    end
+
+    it "it sets the value of enabled to true" do
+      config.enabled.should be true
+    end
+  end
+
+  context "when the Berksfile doesn't exist" do
+    before do
+      File.should_receive(:exist?).with(File.join(Dir.pwd, "Berksfile")).and_return(false)
+    end
+
+    it "set the value of enabled to false" do
+      config.enabled.should be false
+    end
   end
 
   it "sets the value of only to an empty array" do
