@@ -7,6 +7,8 @@ module Berkshelf
         def provision(hook)
           hook.after(::Vagrant::Action::Builtin::Provision, Berkshelf::Vagrant::Action.upload)
           hook.after(::Vagrant::Action::Builtin::Provision, Berkshelf::Vagrant::Action.install)
+          hook.after(::VagrantPlugins::AWS::Action::TimedProvision, Berkshelf::Vagrant::Action.upload)
+          hook.after(::VagrantPlugins::AWS::Action::TimedProvision, Berkshelf::Vagrant::Action.install)
           hook.before(::Vagrant::Action::Builtin::ConfigValidate, Berkshelf::Vagrant::Action.setup)
         end
       end
