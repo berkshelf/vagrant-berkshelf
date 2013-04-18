@@ -1,3 +1,6 @@
+# x.x.x
+- Plugin defaults to enabled, if Berksfile exists.
+
 # 1.1.0
 - Plugin defaults to disabled. Set 'config.berkshelf.enabled = true' in Vagrant config
 
