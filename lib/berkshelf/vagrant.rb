@@ -1,4 +1,13 @@
-require 'vagrant'
+begin
+  require "vagrant"
+rescue LoadError
+  raise "The Vagrant Berkshelf plugin must be run within Vagrant."
+end
+
+if Vagrant::VERSION < "1.1.0"
+  raise "The Vagrant Berkshelf plugin is only compatible with Vagrant 1.1+"
+end
+
 require 'berkshelf'
 require 'berkshelf/vagrant/version'
 require 'berkshelf/vagrant/errors'
