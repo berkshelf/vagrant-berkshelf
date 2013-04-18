@@ -34,7 +34,9 @@ module Berkshelf
                 client_key: env[:berkshelf].config.chef.client_key,
                 ssl: {
                   verify: env[:berkshelf].config.ssl.verify
-                }
+                },
+                force: true,
+                freeze: false
               )
             end
           end
