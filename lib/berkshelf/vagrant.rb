@@ -1,4 +1,9 @@
-require 'vagrant'
+begin
+  require "vagrant"
+rescue LoadError
+  raise "The Vagrant Berkshelf plugin must be run within Vagrant."
+end
+
 require 'berkshelf'
 require 'berkshelf/vagrant/version'
 require 'berkshelf/vagrant/errors'
