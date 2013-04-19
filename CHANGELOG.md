@@ -1,4 +1,5 @@
 # 1.2.0
+- Rename to vagrant-berkshelf
 - Trigger the plugin also on `vagrant reload`
 - Check Vagrant version to see if it's supported
 - cookbooks uploaded via chef_client will be forced and not frozen
