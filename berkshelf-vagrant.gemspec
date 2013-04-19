@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "http://berkshelf.com"
   spec.license       = "Apache 2.0"
 
-  spec.files         = []
+  spec.files         = ["lib/berkshelf-vagrant.rb"]
   spec.required_ruby_version = ">= 1.9.1"
 
   spec.add_dependency 'vagrant-berkshelf', '>= 1.2.0'
