@@ -10,6 +10,10 @@ module Berkshelf
         end
 
         def call(env)
+          if provision_disabled?(env)
+            return @app.call(env)
+          end
+
           unless berkshelf_enabled?(env)
             return @app.call(env)
           end
