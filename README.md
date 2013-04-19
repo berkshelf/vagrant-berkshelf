@@ -29,6 +29,7 @@ The plugin will look in your current working directory for your `Berksfile` by d
 
 # Authors
 - Jamie Winsor (<reset@riotgames.com>)
+- Michael Ivey (<michael.ivey@riotgames.com>)
 
 Thank you to all of our [Contributors](https://github.com/RiotGames/vagrant-berkshelf/graphs/contributors), testers, and users.
 

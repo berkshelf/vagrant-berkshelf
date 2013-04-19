@@ -6,8 +6,8 @@ require 'berkshelf/vagrant/version'
 Gem::Specification.new do |spec|
   spec.name          = "vagrant-berkshelf"
   spec.version       = Berkshelf::Vagrant::VERSION
-  spec.authors       = [ "Jamie Winsor" ]
-  spec.email         = [ "reset@riotgames.com" ]
+  spec.authors       = [ "Jamie Winsor", "Michael Ivey" ]
+  spec.email         = [ "reset@riotgames.com", "michael.ivey@riotgames.com" ]
   spec.description   = %q{A Vagrant plugin to add Berkshelf integration to the Chef provisioners}
   spec.summary       = spec.description
   spec.homepage      = "http://berkshelf.com"
