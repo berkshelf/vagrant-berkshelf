@@ -50,6 +50,15 @@ module Berkshelf
       def berkshelf_enabled?(env)
         env[:global_config].berkshelf.enabled
       end
+
+      # Determine if --no-provision was specified
+      #
+      # @param [Vagrant::Environment] env
+      #
+      # @return [Boolean]
+      def provision_disabled?(env)
+        env.has_key?(:provision_enabled) && !env[:provision_enabled]
+      end
     end
   end
 end

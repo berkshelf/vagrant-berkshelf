@@ -10,7 +10,7 @@ module Berkshelf
         end
 
         def call(env)
-          if env.has_key?(:provision_enabled) && !env[:provision_enabled]
+          if provision_disabled?(env)
             env[:berkshelf].ui.info "Skipping Berkshelf with --no-provision"
 
             return @app.call(env)
