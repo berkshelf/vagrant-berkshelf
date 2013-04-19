@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'berkshelf/vagrant/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "berkshelf-vagrant"
+  spec.name          = "vagrant-berkshelf"
   spec.version       = Berkshelf::Vagrant::VERSION
   spec.authors       = [ "Jamie Winsor" ]
   spec.email         = [ "reset@riotgames.com" ]
