@@ -1,8 +1,8 @@
 # Berkshelf::Vagrant
-[![Gem Version](https://badge.fury.io/rb/berkshelf-vagrant.png)](http://badge.fury.io/rb/berkshelf-vagrant)
-[![Build Status](https://travis-ci.org/RiotGames/berkshelf-vagrant.png?branch=master)](https://travis-ci.org/RiotGames/berkshelf-vagrant)
-[![Dependency Status](https://gemnasium.com/RiotGames/berkshelf-vagrant.png)](https://gemnasium.com/RiotGames/berkshelf-vagrant)
-[![Code Climate](https://codeclimate.com/github/RiotGames/berkshelf-vagrant.png)](https://codeclimate.com/github/RiotGames/berkshelf-vagrant)
+[![Gem Version](https://badge.fury.io/rb/vagrant-berkshelf.png)](http://badge.fury.io/rb/vagrant-berkshelf)
+[![Build Status](https://travis-ci.org/RiotGames/vagrant-berkshelf.png?branch=master)](https://travis-ci.org/RiotGames/vagrant-berkshelf)
+[![Dependency Status](https://gemnasium.com/RiotGames/vagrant-berkshelf.png)](https://gemnasium.com/RiotGames/vagrant-berkshelf)
+[![Code Climate](https://codeclimate.com/github/RiotGames/vagrant-berkshelf.png)](https://codeclimate.com/github/RiotGames/vagrant-berkshelf)
 
 A Vagrant plugin to add Berkshelf integration to the Chef provisioners
 
@@ -12,7 +12,7 @@ Install Vagrant 1.1.x from the [Vagrant downloads page](http://downloads.vagrant
 
 Install the Berkshelf Vagrant plugin
 
-    $ vagrant plugin install berkshelf-vagrant
+    $ vagrant plugin install vagrant-berkshelf
 
 ## Usage
 
@@ -30,6 +30,6 @@ The plugin will look in your current working directory for your `Berksfile` by d
 # Authors
 - Jamie Winsor (<reset@riotgames.com>)
 
-Thank you to all of our [Contributors](https://github.com/RiotGames/berkshelf-vagrant/graphs/contributors), testers, and users.
+Thank you to all of our [Contributors](https://github.com/RiotGames/vagrant-berkshelf/graphs/contributors), testers, and users.
 
-If you'd like to contribute, please see our [contribution guidelines](https://github.com/RiotGames/berkshelf-vagrant/blob/master/CONTRIBUTING.md) first.
+If you'd like to contribute, please see our [contribution guidelines](https://github.com/RiotGames/vagrant-berkshelf/blob/master/CONTRIBUTING.md) first.

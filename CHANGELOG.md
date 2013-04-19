@@ -1,4 +1,8 @@
 # x.x.x
+- renamed to vagrant-berkshelf
+- fix bug with AWS provisioner
+
+# x.x.x
 - Plugin defaults to enabled, if Berksfile exists.
 
 # 1.1.0

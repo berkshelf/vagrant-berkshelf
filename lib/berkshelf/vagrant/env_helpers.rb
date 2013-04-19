@@ -4,7 +4,7 @@ module Berkshelf
     #
     # A module of common helper functions that can be mixed into Berkshelf::Vagrant actions
     module EnvHelpers
-      # A file to persist berkshelf-vagrant specific information in between
+      # A file to persist vagrant-berkshelf specific information in between
       # Vagrant runs.
       #
       # @return [String]
