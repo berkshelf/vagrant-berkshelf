@@ -4,6 +4,7 @@
 - Check Vagrant version to see if it's supported
 - cookbooks uploaded via chef_client will be forced and not frozen
 - Fix bug with AWS provisioner
+- Respect --no-provision flag
 
 # 1.1.2
 - Support Vagrant 1.2
