@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'vagrant', github: "mitchellh/vagrant", tag: "v1.1.2"
+  gem 'vagrant', github: "mitchellh/vagrant"
   gem 'coolline'
   gem 'guard', '>= 1.5.0'
   gem 'guard-rspec'
