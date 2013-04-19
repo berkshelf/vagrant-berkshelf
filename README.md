@@ -10,14 +10,13 @@ A Vagrant plugin to add Berkshelf integration to the Chef provisioners
 
 Install Vagrant 1.1.x from the [Vagrant downloads page](http://downloads.vagrantup.com/)
 
-Install the Berkshelf Vagrant plugin
+Install the Vagrant Berkshelf plugin
 
     $ vagrant plugin install vagrant-berkshelf
 
 ## Usage
 
-Once the Berkshelf Vagrant plugin is installed it can be enabled in your Vagrantfile
-
+Once the Vagrant Berkshelf plugin is installed it can be enabled in your Vagrantfile
 
     Vagrant.configure("2") do |config|
       ...
