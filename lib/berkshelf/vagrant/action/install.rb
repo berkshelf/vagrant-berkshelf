@@ -49,13 +49,13 @@ module Berkshelf
 
           def check_vagrant_version(env)
             unless Solve::Constraint.new(">= 1.1").satisfies?(::Vagrant::VERSION)
-              raise Berkshelf::VagrantWrapperError.new(RuntimeError.new("berkshelf-vagrant requires Vagrant 1.1 or later."))
+              raise Berkshelf::VagrantWrapperError.new(RuntimeError.new("vagrant-berkshelf requires Vagrant 1.1 or later."))
             end
 
             unless Solve::Constraint.new(::Berkshelf::Vagrant::TESTED_CONSTRAINT).satisfies?(::Vagrant::VERSION)
               env[:berkshelf].ui.warn "This version of the Berkshelf plugin has not been fully tested on this version of Vagrant."
-              env[:berkshelf].ui.warn "You should check for a newer version of berkshelf-vagrant."
-              env[:berkshelf].ui.warn "If you encounter any errors with this version, please report them at https://github.com/RiotGames/berkshelf-vagrant/issues"
+              env[:berkshelf].ui.warn "You should check for a newer version of vagrant-berkshelf."
+              env[:berkshelf].ui.warn "If you encounter any errors with this version, please report them at https://github.com/RiotGames/vagrant-berkshelf/issues"
               env[:berkshelf].ui.warn "You can also join the discussion in #berkshelf on Freenode."
             end
           end

@@ -23,11 +23,11 @@ Install the latest version of [Bundler](http://gembundler.com)
 
 Clone the project
 
-    $ git clone git://github.com/RiotGames/berkshelf-vagrant.git
+    $ git clone git://github.com/RiotGames/vagrant-berkshelf.git
 
 and run:
 
-    $ cd berkshelf-vagrant
+    $ cd vagrant-berkshelf
     $ bundle-vagrant install
 
 Bundler will install all gems and their dependencies required for testing and developing.
