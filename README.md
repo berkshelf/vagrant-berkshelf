@@ -1,4 +1,4 @@
-# Berkshelf::Vagrant
+# vagrant-berkshelf
 [![Gem Version](https://badge.fury.io/rb/vagrant-berkshelf.png)](http://badge.fury.io/rb/vagrant-berkshelf)
 [![Build Status](https://travis-ci.org/RiotGames/vagrant-berkshelf.png?branch=master)](https://travis-ci.org/RiotGames/vagrant-berkshelf)
 [![Dependency Status](https://gemnasium.com/RiotGames/vagrant-berkshelf.png)](https://gemnasium.com/RiotGames/vagrant-berkshelf)
