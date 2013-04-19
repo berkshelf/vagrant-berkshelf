@@ -10,6 +10,12 @@ module Berkshelf
         end
 
         def call(env)
+          if provision_disabled?(env)
+            env[:berkshelf].ui.info "Skipping Berkshelf with --no-provision"
+
+            return @app.call(env)
+          end
+
           unless berkshelf_enabled?(env)
             if File.exist?(env[:global_config].berkshelf.berksfile_path)
               warn_disabled_but_berksfile_exists(env)
