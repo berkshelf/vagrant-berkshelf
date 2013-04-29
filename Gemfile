@@ -12,7 +12,6 @@ group :development do
   gem 'redcarpet'
   gem 'yard'
   gem 'fuubar'
-  gem 'rake', '= 0.9.6'
 
   require 'rbconfig'
 
