@@ -31,7 +31,7 @@ module Berkshelf
         def cache_shelf(path, env)
           FileUtils.mkdir_p(File.dirname(path))
 
-          File.open((cache_file env), 'w+') do |f|
+          File.open((cache_file(env)), 'w+') do |f|
             f.write(path)
           end
 
@@ -40,9 +40,9 @@ module Berkshelf
 
         # @return [String, nil]
         def load_shelf(env)
-          return nil unless File.exist?(cache_file env)
+          return nil unless File.exist?(cache_file(env))
 
-          File.read(cache_file env).chomp
+          File.read(cache_file(env)).chomp
         end
       end
     end
