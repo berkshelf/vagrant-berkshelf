@@ -31,12 +31,13 @@ module Berkshelf
       #
       # @return [String]
       #   path to the generated shelf
-      def mkshelf
+      def mkshelf(machine_name)
+
         unless File.exist?(shelf_path)
           FileUtils.mkdir_p(shelf_path)
         end
 
-        Dir.mktmpdir('berkshelf-', shelf_path)
+        Dir.mktmpdir(['berkshelf-', "-#{machine_name}"], shelf_path)
       end
     end
   end

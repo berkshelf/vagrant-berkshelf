@@ -14,10 +14,10 @@ module Berkshelf
             return @app.call(env)
           end
 
-          shelf = load_shelf
+          shelf = load_shelf env
 
           if shelf.nil?
-            shelf = cache_shelf(Berkshelf::Vagrant.mkshelf)
+            shelf = cache_shelf((Berkshelf::Vagrant.mkshelf env[:machine].name), env)
           end
 
           env[:berkshelf].shelf = shelf
@@ -28,10 +28,10 @@ module Berkshelf
         # @param [String] path
         #
         # @return [String]
-        def cache_shelf(path)
+        def cache_shelf(path, env)
           FileUtils.mkdir_p(File.dirname(path))
 
-          File.open(cache_file, 'w+') do |f|
+          File.open((cache_file env), 'w+') do |f|
             f.write(path)
           end
 
@@ -39,10 +39,10 @@ module Berkshelf
         end
 
         # @return [String, nil]
-        def load_shelf
-          return nil unless File.exist?(cache_file)
+        def load_shelf(env)
+          return nil unless File.exist?(cache_file env)
 
-          File.read(cache_file).chomp
+          File.read(cache_file env).chomp
         end
       end
     end

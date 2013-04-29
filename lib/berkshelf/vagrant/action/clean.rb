@@ -14,7 +14,7 @@ module Berkshelf
             env[:berkshelf].ui.info "Cleaning Vagrant's berkshelf"
 
             FileUtils.remove_dir(env[:berkshelf].shelf, force: true)
-            FileUtils.rm_f(cache_file)
+            FileUtils.rm_f(cache_file env)
             env[:berkshelf].shelf = nil
           end
 
