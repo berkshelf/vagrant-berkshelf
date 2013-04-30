@@ -14,6 +14,9 @@ module Berkshelf
             return @app.call(env)
           end
 
+          # Make sure that Berkshelf itself uses distinct directories for each vagrant run.
+          ENV['BERKSHELF_PATH'] = File.join(Berkshelf.berkshelf_path, env[:machine].name.to_s) unless ENV['BERKSHELF_PATH']
+
           shelf = load_shelf env
 
           if shelf.nil?
