@@ -20,7 +20,7 @@ module Berkshelf
           shelf = load_shelf env
 
           if shelf.nil?
-            shelf = cache_shelf((Berkshelf::Vagrant.mkshelf env[:machine].name), env)
+            shelf = cache_shelf(Berkshelf::Vagrant.mkshelf(env[:machine].name), env)
           end
 
           env[:berkshelf].shelf = shelf
