@@ -8,8 +8,8 @@ module Berkshelf
       # Vagrant runs.
       #
       # @return [String]
-      def cache_file
-        File.join('.vagrant', 'berkshelf')
+      def cache_file(env)
+        File.join('.vagrant', 'machines', env[:machine].name.to_s, 'berkshelf')
       end
 
       # Filter all of the provisioners of the given vagrant environment with the given name
