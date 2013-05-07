@@ -16,7 +16,7 @@ module Berkshelf
 
           if chef_solo?(env) && shelf = env[:berkshelf].shelf
             provisioners(:chef_solo, env).each do |provisioner|
-              provisioner.config.cookbooks_path = provisioner.config.send(:prepare_folders_config, shelf)
+              provisioner.config.cookbooks_path += provisioner.config.send(:prepare_folders_config, shelf)
             end
           end
 
