@@ -1,14 +1,16 @@
 begin
-  require "vagrant"
+  require 'vagrant'
 rescue LoadError
-  raise "The Vagrant Berkshelf plugin must be run within Vagrant."
+  raise 'The Vagrant Berkshelf plugin must be run within Vagrant.'
 end
+
+require 'fileutils'
+require 'json'
+require 'tmpdir'
 
 require 'berkshelf'
 require 'berkshelf/vagrant/version'
 require 'berkshelf/vagrant/errors'
-require 'tmpdir'
-require 'fileutils'
 
 module Berkshelf
   # @author Jamie Winsor <reset@riotgames.com>
