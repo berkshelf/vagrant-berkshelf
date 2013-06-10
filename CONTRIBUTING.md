@@ -28,7 +28,7 @@ Clone the project
 and run:
 
     $ cd vagrant-berkshelf
-    $ bundle-vagrant install
+    $ bundle install
 
 Bundler will install all gems and their dependencies required for testing and developing.
 
