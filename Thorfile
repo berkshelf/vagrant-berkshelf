@@ -8,26 +8,22 @@ require 'thor/rake_compat'
 require 'berkshelf/vagrant'
 
 class Default < Thor
-  class Gem < Thor
-    include Thor::RakeCompat
-    Bundler::GemHelper.install_tasks
+  include Thor::RakeCompat
+  Bundler::GemHelper.install_tasks
 
-    namespace :gem
+  desc "build", "Build vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem into the pkg directory"
+  def build
+    Rake::Task["build"].execute
+  end
 
-    desc "build", "Build vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem into the pkg directory"
-    def build
-      Rake::Task["build"].execute
-    end
+  desc "release", "Create tag v#{Berkshelf::Vagrant::VERSION} and build and push vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem to Rubygems"
+  def release
+    Rake::Task["release"].execute
+  end
 
-    desc "release", "Create tag v#{Berkshelf::Vagrant::VERSION} and build and push vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem to Rubygems"
-    def release
-      Rake::Task["release"].execute
-    end
-
-    desc "install", "Build and install vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem into system gems"
-    def install
-      Rake::Task["install"].execute
-    end
+  desc "install", "Build and install vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem into system gems"
+  def install
+    Rake::Task["install"].execute
   end
 
   class Spec < Thor
