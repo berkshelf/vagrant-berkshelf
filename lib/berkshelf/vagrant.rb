@@ -20,6 +20,8 @@ module Berkshelf
     autoload :Env, 'berkshelf/vagrant/env'
     autoload :EnvHelpers, 'berkshelf/vagrant/env_helpers'
 
+    TESTED_CONSTRAINT = "~> 1.2.0"
+
     class << self
       # The path to where shelfs are created on the host machine to be mounted in
       # Vagrant guests
