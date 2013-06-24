@@ -9,16 +9,16 @@ require 'fileutils'
 require 'json'
 require 'tmpdir'
 
-require_relative 'errors'
-require_relative 'version'
+require_relative 'vagrant/errors'
+require_relative 'vagrant/version'
 
 module Berkshelf
   # @author Jamie Winsor <reset@riotgames.com>
   module Vagrant
-    require_relative 'action'
-    require_relative 'config'
-    require_relative 'env'
-    require_relative 'env_helpers'
+    require_relative 'vagrant/action'
+    require_relative 'vagrant/config'
+    require_relative 'vagrant/env'
+    require_relative 'vagrant/env_helpers'
 
     class << self
       # The path to where shelfs are created on the host machine to be mounted in
@@ -51,4 +51,4 @@ module Berkshelf
   end
 end
 
-require_relative 'plugin'
+require_relative 'vagrant/plugin'

@@ -1,6 +1,9 @@
 module Berkshelf
   module Vagrant
     module Action
+      require_relative 'env'
+      require_relative 'env_helpers'
+
       require_relative 'action/clean'
       require_relative 'action/configure_chef'
       require_relative 'action/install'
