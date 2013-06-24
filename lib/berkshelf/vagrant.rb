@@ -4,21 +4,21 @@ rescue LoadError
   raise 'The Vagrant Berkshelf plugin must be run within Vagrant.'
 end
 
+require 'berkshelf'
 require 'fileutils'
 require 'json'
 require 'tmpdir'
 
-require 'berkshelf'
-require 'berkshelf/vagrant/version'
-require 'berkshelf/vagrant/errors'
+require_relative 'errors'
+require_relative 'version'
 
 module Berkshelf
   # @author Jamie Winsor <reset@riotgames.com>
   module Vagrant
-    autoload :Action, 'berkshelf/vagrant/action'
-    autoload :Config, 'berkshelf/vagrant/config'
-    autoload :Env, 'berkshelf/vagrant/env'
-    autoload :EnvHelpers, 'berkshelf/vagrant/env_helpers'
+    require_relative 'action'
+    require_relative 'config'
+    require_relative 'env'
+    require_relative 'env_helpers'
 
     class << self
       # The path to where shelfs are created on the host machine to be mounted in
@@ -51,4 +51,4 @@ module Berkshelf
   end
 end
 
-require 'berkshelf/vagrant/plugin'
+require_relative 'plugin'

@@ -19,17 +19,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 1.9.1'
 
-  spec.add_dependency 'berkshelf', '~> 2.0.4'
-  # activesupport 3.2.13 contains an incompatible hard lock on i18n (= 0.6.1)
-  spec.add_dependency 'activesupport', '>= 3.2.0', '< 3.2.13'
+  spec.add_dependency 'berkshelf', '~> 2.0'
 
-  # Explicit locks to ensure we activate the proper gem versions for Vagrant
-  spec.add_dependency 'i18n', '~> 0.6.0'
-  spec.add_dependency 'net-ssh', '~> 2.6.6'
-  spec.add_dependency 'net-scp', '~> 1.1.0'
-
-  spec.add_development_dependency 'bundler', '~> 1.3'
-  spec.add_development_dependency 'spork'
-  spec.add_development_dependency 'rspec'
-  spec.add_development_dependency 'thor'
+  spec.add_development_dependency 'spork', '~> 0.9'
+  spec.add_development_dependency 'rspec', '~> 2.13'
+  spec.add_development_dependency 'thor',  '~> 0.18'
 end
