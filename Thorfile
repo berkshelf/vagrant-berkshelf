@@ -29,7 +29,7 @@ class Default < Thor
   desc "plug", "Install #{gem_name}.gem into vagrant"
   def plug
     build
-    run "vagrant plugin install pkg/#{gem_name}"
+    run "vagrant plugin install pkg/#{gem_name}.gem"
   end
 
   no_tasks do
