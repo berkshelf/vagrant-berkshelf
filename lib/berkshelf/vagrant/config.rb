@@ -66,7 +66,7 @@ module Berkshelf
           end
 
           unless File.exist?(machine.config.berkshelf.berksfile_path)
-            errors << "No Berskfile was found at #{machine.config.berkshelf.berksfile_path}."
+            errors << "No Berksfile was found at #{machine.config.berkshelf.berksfile_path}."
           end
 
           if !except.empty? && !only.empty?
