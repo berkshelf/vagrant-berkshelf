@@ -11,31 +11,27 @@ class Default < Thor
   include Thor::RakeCompat
   Bundler::GemHelper.install_tasks
 
-  desc "build", "Build #{gem_pkg} into the pkg directory"
+  GEM_PKG = "vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem".freeze
+
+  desc "build", "Build #{GEM_PKG} into the pkg directory"
   def build
     Rake::Task["build"].execute
   end
 
-  desc "release", "Create tag v#{Berkshelf::Vagrant::VERSION} and build and push #{gem_pkg} to Rubygems"
+  desc "release", "Create tag v#{Berkshelf::Vagrant::VERSION} and build and push #{GEM_PKG} to Rubygems"
   def release
     Rake::Task["release"].execute
   end
 
-  desc "install", "Build and install #{gem_pkg} into system gems"
+  desc "install", "Build and install #{GEM_PKG} into system gems"
   def install
     Rake::Task["install"].execute
   end
 
-  desc "plug", "Install #{gem_pkg} into vagrant"
+  desc "plug", "Install #{GEM_PKG} into vagrant"
   def plug
     build
-    run "vagrant plugin install pkg/#{gem_pkg}"
-  end
-
-  no_tasks do
-    def gem_pkg
-      "vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem"
-    end
+    run "vagrant plugin install pkg/#{GEM_PKG}"
   end
 
   class Spec < Thor
