@@ -1,6 +1,6 @@
 module Berkshelf
   module Vagrant
-    # @author Jamie Winsor <reset@riotgames.com>
+    # @author Jamie Winsor <jamie@vialstudios.com>
     #
     # Environment data to build up and persist through the middleware chain
     class Env

@@ -13,7 +13,7 @@ require 'berkshelf/vagrant/version'
 require 'berkshelf/vagrant/errors'
 
 module Berkshelf
-  # @author Jamie Winsor <reset@riotgames.com>
+  # @author Jamie Winsor <jamie@vialstudios.com>
   module Vagrant
     autoload :Action, 'berkshelf/vagrant/action'
     autoload :Config, 'berkshelf/vagrant/config'
