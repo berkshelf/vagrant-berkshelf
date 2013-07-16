@@ -4,14 +4,13 @@ $:.push File.expand_path("../lib", __FILE__)
 require 'bundler'
 require 'bundler/setup'
 require 'thor/rake_compat'
-
 require 'berkshelf/vagrant'
+
+GEM_PKG = "vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem".freeze
 
 class Gem < Thor
   include Thor::RakeCompat
   Bundler::GemHelper.install_tasks
-
-  GEM_PKG = "vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem".freeze
 
   desc "build", "Build #{GEM_PKG} into the pkg directory"
   def build
