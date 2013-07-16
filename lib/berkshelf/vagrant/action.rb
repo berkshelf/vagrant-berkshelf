@@ -1,12 +1,15 @@
 module Berkshelf
   module Vagrant
     module Action
-      autoload :Clean, 'berkshelf/vagrant/action/clean'
-      autoload :ConfigureChef, 'berkshelf/vagrant/action/configure_chef'
-      autoload :Install, 'berkshelf/vagrant/action/install'
-      autoload :LoadShelf, 'berkshelf/vagrant/action/load_shelf'
-      autoload :SetUI, 'berkshelf/vagrant/action/set_ui'
-      autoload :Upload, 'berkshelf/vagrant/action/upload'
+      require_relative 'env'
+      require_relative 'env_helpers'
+
+      require_relative 'action/clean'
+      require_relative 'action/configure_chef'
+      require_relative 'action/install'
+      require_relative 'action/load_shelf'
+      require_relative 'action/set_ui'
+      require_relative 'action/upload'
 
       class << self
         # Return the Berkshelf install middleware stack. When placed in the action chain

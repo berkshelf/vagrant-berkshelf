@@ -4,21 +4,21 @@ rescue LoadError
   raise 'The Vagrant Berkshelf plugin must be run within Vagrant.'
 end
 
+require 'berkshelf'
 require 'fileutils'
 require 'json'
 require 'tmpdir'
 
-require 'berkshelf'
-require 'berkshelf/vagrant/version'
-require 'berkshelf/vagrant/errors'
+require_relative 'vagrant/errors'
+require_relative 'vagrant/version'
 
 module Berkshelf
   # @author Jamie Winsor <jamie@vialstudios.com>
   module Vagrant
-    autoload :Action, 'berkshelf/vagrant/action'
-    autoload :Config, 'berkshelf/vagrant/config'
-    autoload :Env, 'berkshelf/vagrant/env'
-    autoload :EnvHelpers, 'berkshelf/vagrant/env_helpers'
+    require_relative 'vagrant/action'
+    require_relative 'vagrant/config'
+    require_relative 'vagrant/env'
+    require_relative 'vagrant/env_helpers'
 
     TESTED_CONSTRAINT = "~> 1.2.0"
 
@@ -53,4 +53,4 @@ module Berkshelf
   end
 end
 
-require 'berkshelf/vagrant/plugin'
+require_relative 'vagrant/plugin'

@@ -4,14 +4,13 @@ $:.push File.expand_path("../lib", __FILE__)
 require 'bundler'
 require 'bundler/setup'
 require 'thor/rake_compat'
-
 require 'berkshelf/vagrant'
 
-class Default < Thor
+GEM_PKG = "vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem".freeze
+
+class Gem < Thor
   include Thor::RakeCompat
   Bundler::GemHelper.install_tasks
-
-  GEM_PKG = "vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem".freeze
 
   desc "build", "Build #{GEM_PKG} into the pkg directory"
   def build
@@ -27,6 +26,11 @@ class Default < Thor
   def install
     Rake::Task["install"].execute
   end
+end
+
+class Spec < Thor
+  include Thor::Actions
+  default_task :unit
 
   desc "plug", "Install #{GEM_PKG} into vagrant"
   def plug
@@ -34,29 +38,22 @@ class Default < Thor
     run "vagrant plugin install pkg/#{GEM_PKG}"
   end
 
-  class Spec < Thor
-    include Thor::Actions
+  desc "ci", "Run all possible tests on Travis-CI"
+  def ci
+    ENV['CI'] = 'true' # Travis-CI also sets this, but set it here for local testing
+    invoke(:unit)
+  end
 
-    namespace :spec
-    default_task :unit
-
-    desc "ci", "Run all possible tests on Travis-CI"
-    def ci
-      ENV['CI'] = 'true' # Travis-CI also sets this, but set it here for local testing
-      invoke(:unit)
+  desc "unit", "Run unit tests"
+  def unit
+    unless run_unit
+      exit 1
     end
+  end
 
-    desc "unit", "Run unit tests"
-    def unit
-      unless run_unit
-        exit 1
-      end
-    end
-
-    no_tasks do
-      def run_unit(*flags)
-        run "rspec --color --format=documentation #{flags.join(' ')} spec"
-      end
+  no_tasks do
+    def run_unit(*flags)
+      run "rspec --color --format=documentation #{flags.join(' ')} spec"
     end
   end
 end
