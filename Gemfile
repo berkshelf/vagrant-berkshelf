@@ -3,15 +3,18 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'vagrant', github: "mitchellh/vagrant"
+  gem 'vagrant', github: 'mitchellh/vagrant'
+end
+
+group :guard do
   gem 'coolline'
+  gem 'fuubar'
   gem 'guard', '>= 1.5.0'
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'guard-yard'
   gem 'redcarpet'
   gem 'yard'
-  gem 'fuubar'
 
   require 'rbconfig'
 
