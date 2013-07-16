@@ -1,7 +1,5 @@
 module Berkshelf
   module Vagrant
-    # @author Jamie Winsor <reset@riotgames.com>
-    TESTED_CONSTRAINT="<= 1.2.1"
     class Plugin < ::Vagrant.plugin("2")
       class << self
         def provision(hook)

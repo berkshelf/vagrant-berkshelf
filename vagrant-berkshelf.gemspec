@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'vagrant-berkshelf'
   spec.version       = Berkshelf::Vagrant::VERSION
   spec.authors       = [ 'Jamie Winsor', 'Michael Ivey' ]
-  spec.email         = [ 'reset@riotgames.com', 'michael.ivey@riotgames.com' ]
+  spec.email         = [ 'jamie@vialstudios.com', 'michael.ivey@riotgames.com' ]
   spec.description   = %q{A Vagrant plugin to add Berkshelf integration to the Chef provisioners}
   spec.summary       = spec.description
   spec.homepage      = 'http://berkshelf.com'
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 1.9.1'
 
-  spec.add_dependency 'berkshelf', '~> 2.0'
+  spec.add_dependency 'berkshelf', '>= 3.0.0.beta1'
 
   spec.add_development_dependency 'spork', '~> 0.9'
   spec.add_development_dependency 'rspec', '~> 2.13'

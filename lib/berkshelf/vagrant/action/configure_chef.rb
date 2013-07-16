@@ -1,7 +1,7 @@
 module Berkshelf
   module Vagrant
     module Action
-      # @author Jamie Winsor <reset@riotgames.com>
+      # @author Jamie Winsor <jamie@vialstudios.com>
       class ConfigureChef
         include Berkshelf::Vagrant::EnvHelpers
 

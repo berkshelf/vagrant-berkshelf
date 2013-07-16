@@ -13,12 +13,14 @@ require_relative 'vagrant/errors'
 require_relative 'vagrant/version'
 
 module Berkshelf
-  # @author Jamie Winsor <reset@riotgames.com>
+  # @author Jamie Winsor <jamie@vialstudios.com>
   module Vagrant
     require_relative 'vagrant/action'
     require_relative 'vagrant/config'
     require_relative 'vagrant/env'
     require_relative 'vagrant/env_helpers'
+
+    TESTED_CONSTRAINT = "~> 1.2.0"
 
     class << self
       # The path to where shelfs are created on the host machine to be mounted in
