@@ -40,10 +40,8 @@ module Berkshelf
           def install(env)
             check_vagrant_version(env)
             env[:berkshelf].ui.info "Updating Vagrant's berkshelf: '#{env[:berkshelf].shelf}'"
-            opts = {
-              path: env[:berkshelf].shelf
-            }.merge(env[:global_config].berkshelf.to_hash).symbolize_keys!
-            env[:berkshelf].berksfile.install(opts)
+            FileUtils.rm_rf(env[:berkshelf].shelf)
+            env[:berkshelf].berksfile.vendor(env[:berkshelf].shelf)
           end
 
           def warn_disabled_but_berksfile_exists(env)
