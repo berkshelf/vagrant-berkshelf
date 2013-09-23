@@ -42,7 +42,7 @@ module Berkshelf
             env[:berkshelf].ui.info "Updating Vagrant's berkshelf: '#{env[:berkshelf].shelf}'"
             FileUtils.rm_rf(env[:berkshelf].shelf)
 
-            opts = env[:global_config].berkshelf.to_hash.symbolize_keys
+            opts = env[:machine].config.berkshelf.to_hash.symbolize_keys
             env[:berkshelf].berksfile.vendor(env[:berkshelf].shelf, opts)
           end
 
