@@ -38,12 +38,64 @@ describe Berkshelf::Vagrant::Config do
     subject.except.should be_empty
   end
 
-  it "sets the value of node_name to the value in the Berkshelf::Config.instance" do
-    subject.node_name.should eql(Berkshelf::Config.instance.chef.node_name)
+  context "when the config file path is not specified" do
+    it "sets the value of node_name to the value in the Berkshelf::Config.instance" do
+      subject.node_name.should eql(Berkshelf::Config.instance.chef.node_name)
+    end
+
+    it "sets the value of client_key to the value in Berkshelf::Config.instance" do
+      subject.client_key.should eql(Berkshelf::Config.instance.chef.client_key)
+    end
   end
 
-  it "sets the value of client_key to the value in Berkshelf::Config.instance" do
-    subject.client_key.should eql(Berkshelf::Config.instance.chef.client_key)
+  describe "#config_path=" do
+    before(:each) do
+      @cfg = described_class.new
+      File.stub(:expand_path) do |arg|
+        arg == 'my_berkshelf_config.json' ? 'new_config_path' : arg
+      end
+      Berkshelf::Config.stub(:new).and_return(Berkshelf::Config.instance)
+      Berkshelf::Config.instance.chef.stub(:client_key).and_return('new_client_key')
+      Berkshelf::Config.instance.chef.stub(:node_name).and_return('new_node_name')
+      @cfg.config_path = 'my_berkshelf_config.json'
+    end
+
+    it "reloads the berkshelf config" do
+      Berkshelf::Config.should_receive(:set_path).with('new_config_path')
+      @cfg.config_path = 'my_berkshelf_config.json'
+    end
+
+    context "with the client_key and node_name not set already" do
+      it "sets the client_key from the specified config file" do
+        @cfg.client_key.should eql('new_client_key')
+      end
+
+      it "sets the node_name from the specified config file" do
+        @cfg.node_name.should eql('new_node_name')
+      end
+    end
+
+    context "with the client_key already set" do
+      before(:each) do
+        @cfg.client_key = 'other_client_key'
+        @cfg.config_path = 'my_berkshelf_config.json'
+      end
+
+      it "does not alter the client key" do
+        @cfg.client_key.should eql('other_client_key')
+      end
+    end
+
+    context "with the node_name already set" do
+      before(:each) do
+        @cfg.node_name = 'other_node_name'
+        @cfg.config_path = 'my_berkshelf_config.json'
+      end
+
+      it "does not alter the node name" do
+        @cfg.node_name.should eql('other_node_name')
+      end
+    end
   end
 
   describe "#validate" do
@@ -76,6 +128,22 @@ describe Berkshelf::Vagrant::Config do
         it "contains an empty Array for the 'berkshelf configuration' key" do
           result["berkshelf configuration"].should be_a(Array)
           result["berkshelf configuration"].should be_empty
+        end
+      end
+
+      context "when config_path is specified" do
+        context "and the file does not exist" do
+          before(:each) do
+            subject.config_path = 'my_config_file'
+            File.should_receive(:exist?).with(subject.berksfile_path).and_return(true)
+            File.should_receive(:exist?).with(subject.config_path).and_return(false)
+          end
+
+          let(:result) { subject.validate(machine) }
+
+          it "returns an error in the array" do
+            result["berkshelf configuration"].should_not be_empty
+          end
         end
       end
     end
