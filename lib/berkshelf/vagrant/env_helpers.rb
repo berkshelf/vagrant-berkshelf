@@ -48,7 +48,7 @@ module Berkshelf
       #
       # @return [Boolean]
       def berkshelf_enabled?(env)
-        env[:global_config].berkshelf.enabled
+        env[:machine].config.berkshelf.enabled
       end
 
       # Determine if --no-provision was specified
