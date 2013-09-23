@@ -41,7 +41,9 @@ module Berkshelf
             check_vagrant_version(env)
             env[:berkshelf].ui.info "Updating Vagrant's berkshelf: '#{env[:berkshelf].shelf}'"
             FileUtils.rm_rf(env[:berkshelf].shelf)
-            env[:berkshelf].berksfile.vendor(env[:berkshelf].shelf)
+
+            opts = env[:global_config].berkshelf.to_hash.symbolize_keys
+            env[:berkshelf].berksfile.vendor(env[:berkshelf].shelf, opts)
           end
 
           def warn_disabled_but_berksfile_exists(env)
