@@ -6,9 +6,10 @@ module Berkshelf
           hook.after(::Vagrant::Action::Builtin::Provision, Berkshelf::Vagrant::Action.upload)
           hook.after(::Vagrant::Action::Builtin::Provision, Berkshelf::Vagrant::Action.install)
 
-          if ::VagrantPlugins.const_defined?(:AWS)
-            hook.after(::VagrantPlugins::AWS::Action::TimedProvision, Berkshelf::Vagrant::Action.upload)
-            hook.after(::VagrantPlugins::AWS::Action::TimedProvision, Berkshelf::Vagrant::Action.install)
+          # vagrant-aws < 0.4.0 uses a non-standard provision action
+          if defined?(VagrantPlugins::AWS::Action::TimedProvision)
+            hook.after(VagrantPlugins::AWS::Action::TimedProvision, Berkshelf::Vagrant::Action.upload)
+            hook.after(VagrantPlugins::AWS::Action::TimedProvision, Berkshelf::Vagrant::Action.install)
           end
 
           hook.before(::Vagrant::Action::Builtin::ConfigValidate, Berkshelf::Vagrant::Action.setup)
