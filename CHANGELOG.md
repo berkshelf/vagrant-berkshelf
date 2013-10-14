@@ -1,3 +1,6 @@
+# 1.3.4
+- Fix undefined constant error when provisioning with Vagrant AWS
+
 # 1.2.0
 - Rename to vagrant-berkshelf
 - Trigger the plugin also on `vagrant reload`
