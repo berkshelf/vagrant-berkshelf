@@ -30,6 +30,10 @@ module Berkshelf
       #   chef server to upload cookbooks when using the chef client provisioner
       attr_accessor :client_key
 
+      # @return [String]
+      #   the path of the berkshelf config file to use
+      attr_reader :config_path
+
       def initialize
         super
 
@@ -39,6 +43,15 @@ module Berkshelf
         @node_name      = Berkshelf::Config.instance.chef.node_name
         @client_key     = Berkshelf::Config.instance.chef.client_key
         @enabled        = File.exist?(@berksfile_path)
+        @ck_default, @nn_default = true, true
+      end
+
+      # @param [String] value
+      def config_path=(value)
+        @config_path = value
+        Berkshelf::Config.set_path(File.expand_path(value))
+        @client_key = Berkshelf::Config.instance.chef.client_key if @ck_default
+        @node_name = Berkshelf::Config.instance.chef.node_name if @nn_default
       end
 
       # @param [String] value
@@ -47,7 +60,14 @@ module Berkshelf
       end
 
       # @param [String] value
+      def node_name=(value)
+        @nn_default = false
+        @node_name = value
+      end
+
+      # @param [String] value
       def client_key=(value)
+        @ck_default = false
         @client_key = File.expand_path(value)
       end
 
@@ -67,6 +87,12 @@ module Berkshelf
 
           unless File.exist?(machine.config.berkshelf.berksfile_path)
             errors << "No Berksfile was found at #{machine.config.berkshelf.berksfile_path}."
+          end
+
+          unless  machine.config.berkshelf.config_path.nil?
+            unless File.exist?(machine.config.berkshelf.config_path)
+              errors << "No config file was found at #{machine.config.berkshelf.config_path}."
+            end
           end
 
           if !except.empty? && !only.empty?
