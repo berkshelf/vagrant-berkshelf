@@ -1,5 +1,3 @@
-require "pathname"
-
 module Berkshelf
   module Vagrant
     # @author Jamie Winsor <jamie@vialstudios.com>
