@@ -17,14 +17,14 @@ module Berkshelf
           end
 
           unless berkshelf_enabled?(env)
-            if File.exist?(env[:global_config].berkshelf.berksfile_path)
+            if File.exist?(env[:machine].config.berkshelf.berksfile_path)
               warn_disabled_but_berksfile_exists(env)
             end
 
             return @app.call(env)
           end
 
-          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(env[:global_config].berkshelf.berksfile_path)
+          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(env[:machine].config.berkshelf.berksfile_path)
 
           if chef_solo?(env)
             install(env)
@@ -48,7 +48,7 @@ module Berkshelf
 
           def warn_disabled_but_berksfile_exists(env)
             env[:berkshelf].ui.warn "Berkshelf plugin is disabled but a Berksfile was found at" +
-              " your configured path: #{env[:global_config].berkshelf.berksfile_path}"
+              " your configured path: #{env[:machine].config.berkshelf.berksfile_path}"
             env[:berkshelf].ui.warn "Enable the Berkshelf plugin by setting 'config.berkshelf.enabled = true'" +
               " in your vagrant config"
           end
