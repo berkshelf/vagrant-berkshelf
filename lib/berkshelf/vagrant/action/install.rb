@@ -58,7 +58,7 @@ module Berkshelf
               raise Berkshelf::VagrantWrapperError.new(RuntimeError.new("vagrant-berkshelf requires Vagrant 1.1 or later."))
             end
 
-            unless vagrant_version_satisfies?(::Berkshelf::Vagrant::TESTED_CONSTRAINT)
+            unless vagrant_version_satisfies?(::Berkshelf::Vagrant::TESTED_REQUIREMENTS)
               env[:berkshelf].ui.warn "This version of the Berkshelf plugin has not been fully tested on this version of Vagrant."
               env[:berkshelf].ui.warn "You should check for a newer version of vagrant-berkshelf."
               env[:berkshelf].ui.warn "If you encounter any errors with this version, please report them at https://github.com/berkshelf/vagrant-berkshelf/issues"
@@ -66,8 +66,8 @@ module Berkshelf
             end
           end
 
-          def vagrant_version_satisfies?(requirement)
-            Gem::Requirement.new(requirement).satisfied_by? Gem::Version.new(::Vagrant::VERSION)
+          def vagrant_version_satisfies?(requirements)
+            Gem::Requirement.new(requirements).satisfied_by? Gem::Version.new(::Vagrant::VERSION)
           end
       end
     end

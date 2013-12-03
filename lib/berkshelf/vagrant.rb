@@ -20,7 +20,7 @@ module Berkshelf
     require_relative 'vagrant/env'
     require_relative 'vagrant/env_helpers'
 
-    TESTED_CONSTRAINT = "~> 1.2.0"
+    TESTED_REQUIREMENTS = [">= 1.1", "< 1.4.0"]
 
     class << self
       # The path to where shelfs are created on the host machine to be mounted in
