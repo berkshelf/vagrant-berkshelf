@@ -47,7 +47,7 @@ describe Berkshelf::Vagrant::Config do
   end
 
   describe "#validate" do
-    let(:env) { double('env') }
+    let(:env) { double('env', root_path: Dir.pwd ) }
     let(:config) { double('config', berkshelf: subject) }
     let(:machine) { double('machine', config: config, env: env) }
 
@@ -81,7 +81,7 @@ describe Berkshelf::Vagrant::Config do
     end
 
     context "when the plugin is disabled" do
-      let(:machine) { double('machine') }
+      let(:machine) { double('machine', env: env) }
 
       before do
         subject.stub(enabled: false)

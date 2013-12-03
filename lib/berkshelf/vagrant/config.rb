@@ -43,17 +43,19 @@ module Berkshelf
 
       # @param [String] value
       def berksfile_path=(value)
-        @berksfile_path = File.expand_path(value)
+        @berksfile_path = value
       end
 
       # @param [String] value
       def client_key=(value)
-        @client_key = File.expand_path(value)
+        @client_key = value
       end
 
       alias_method :to_hash, :instance_variables_hash
 
       def validate(machine)
+        @berksfile_path = File.expand_path(@berksfile_path, machine.env.root_path.to_s)
+        @client_key = File.expand_path(@client_key, machine.env.root_path.to_s)
         errors = Array.new
 
         unless [TrueClass, FalseClass].include?(enabled.class)
