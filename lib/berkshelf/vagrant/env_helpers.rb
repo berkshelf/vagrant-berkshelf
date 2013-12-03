@@ -9,7 +9,7 @@ module Berkshelf
       #
       # @return [String]
       def cache_file(env)
-        File.join('.vagrant', 'machines', env[:machine].name.to_s, 'berkshelf')
+        File.expand_path(File.join('.vagrant', 'machines', env[:machine].name.to_s, 'berkshelf'), env[:root_path].to_s)
       end
 
       # Filter all of the provisioners of the given vagrant environment with the given name
