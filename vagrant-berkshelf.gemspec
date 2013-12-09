@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
 
   # Explicit locks to ensure we activate the proper gem versions for Vagrant
   spec.add_dependency 'i18n', '~> 0.6.0'
-  spec.add_dependency 'net-ssh', '~> 2.6.6'
+  spec.add_dependency 'net-ssh', '>= 2.6.6', '< 2.8.0'
   spec.add_dependency 'net-scp', '~> 1.1.0'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
