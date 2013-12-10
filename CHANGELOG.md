@@ -1,7 +1,13 @@
+# 1.3.5
+
+* Relax constraint on SSH to fix Vagrant 1.4 support
+
 # 1.3.4
+
 - Fix undefined constant error when provisioning with Vagrant AWS
 
 # 1.2.0
+
 - Rename to vagrant-berkshelf
 - Trigger the plugin also on `vagrant reload`
 - Check Vagrant version to see if it's supported
@@ -10,12 +16,15 @@
 - Respect --no-provision flag
 
 # 1.1.2
+
 - Support Vagrant 1.2
 - Plugin defaults to enabled, if Berksfile exists.
 
 # 1.1.0
+
 - Plugin defaults to disabled. Set 'config.berkshelf.enabled = true' in Vagrant config
 
 # 1.0.0
+
 - Separated Berkshelf Vagrant plugin into it's own gem (this one)
 - Support Vagrant 1.1.x
