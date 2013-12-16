@@ -1,3 +1,11 @@
+# 1.3.7
+
+* Don't lock down activesupport since v3.2.14 already loosened the i18n requirement
+
+# 1.3.6
+
+* Replace Solve with RubyGems in Vagrant version checking. Fixes [#97](https://github.com/berkshelf/vagrant-berkshelf/issues/97) and backport it.
+
 # 1.3.5
 
 * Relax constraint on SSH to fix Vagrant 1.4 support
