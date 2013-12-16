@@ -20,8 +20,6 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 1.9.1'
 
   spec.add_dependency 'berkshelf', '~> 2.0.7'
-  # activesupport 3.2.13 contains an incompatible hard lock on i18n (= 0.6.1)
-  spec.add_dependency 'activesupport', '>= 3.2.0', '< 3.2.13'
 
   # Explicit locks to ensure we activate the proper gem versions for Vagrant
   spec.add_dependency 'i18n', '~> 0.6.0'
