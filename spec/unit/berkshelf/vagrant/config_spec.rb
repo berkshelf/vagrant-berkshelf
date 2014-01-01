@@ -4,30 +4,22 @@ describe Berkshelf::Vagrant::Config do
   let(:unset_value) { described_class::UNSET_VALUE }
   let(:config) { described_class.new }
 
-  it "sets a path to a Berksfile in the current working directory for berksfile_path" do
-    subject.berksfile_path.should eql(File.join(Dir.pwd, "Berksfile"))
+  it "sets the value of berksfile_path to UNSET_VALUE" do
+    subject.berksfile_path.should be unset_value
   end
 
-  context "when the Berksfile exists" do
-    before do
-      File.should_receive(:exist?).with(File.join(Dir.pwd, "Berksfile")).and_return(true)
-    end
-
-    it "it sets the value of enabled to true" do
-      config.enabled.should be true
-    end
+  it "sets the value of enabled to UNSET_VALUE" do
+    subject.enabled.should be unset_value
   end
 
-  context "when the Berksfile doesn't exist" do
-    before do
-      File.should_receive(:exist?).with(File.join(Dir.pwd, "Berksfile")).and_return(false)
-    end
-
-    it "set the value of enabled to false" do
-      config.enabled.should be false
-    end
+  it "sets the value of node_name to UNSET_VALUE" do
+    subject.node_name.should be unset_value
   end
 
+  it "sets the value of client_key to UNSET_VALUE" do
+    subject.client_key.should be unset_value
+  end
+  
   it "sets the value of only to an empty array" do
     subject.only.should be_a(Array)
     subject.only.should be_empty
@@ -38,14 +30,60 @@ describe Berkshelf::Vagrant::Config do
     subject.except.should be_empty
   end
 
-  it "sets the value of node_name to the value in the Berkshelf::Config.instance" do
-    subject.node_name.should eql(Berkshelf::Config.instance.chef.node_name)
-  end
+  describe "#finalize" do
+    context "when enabled is not set" do
+      context "when the Berksfile exists" do
+        before do
+          File.should_receive(:exist?).with(File.join(Dir.pwd, "Berksfile")).and_return(true)
+          subject.finalize!
+        end
+    
+        it "it sets the value of enabled to true" do
+          subject.enabled.should be true
+        end
+      end
+    
+      context "when the Berksfile doesn't exist" do
+        before do
+          File.should_receive(:exist?).with(File.join(Dir.pwd, "Berksfile")).and_return(false)
+          subject.finalize!
+        end
+    
+        it "set the value of enabled to false" do
+          subject.enabled.should be false
+        end
+      end
+      
+      context "when berksfile_path has been set" do
+        before do
+          subject.berksfile_path = "Berksfile";
+          subject.finalize!
+        end
+        it "sets enabled to true" do
+          subject.enabled.should be true
+        end
+      end
+    end
+    context "when other values have not been set" do
+      before do
+        subject.finalize!
+      end
+            
+      it "sets the value of node_name to the value in the Berkshelf::Config.instance" do
+        subject.node_name.should eql(Berkshelf::Config.instance.chef.node_name)
+      end
+    
+      it "sets the value of client_key to the value in Berkshelf::Config.instance" do
+        subject.client_key.should eql(Berkshelf::Config.instance.chef.client_key)
+      end
 
-  it "sets the value of client_key to the value in Berkshelf::Config.instance" do
-    subject.client_key.should eql(Berkshelf::Config.instance.chef.client_key)
+      it "sets a path to a Berksfile in the current working directory for berksfile_path" do
+        subject.berksfile_path.should eql "Berksfile"
+      end
+      
+    end    
   end
-
+  
   describe "#validate" do
     let(:env) { double('env', root_path: Dir.pwd ) }
     let(:config) { double('config', berkshelf: subject) }
@@ -70,7 +108,7 @@ describe Berkshelf::Vagrant::Config do
 
       context "when all validations pass" do
         before(:each) do
-          File.should_receive(:exist?).with(subject.berksfile_path).and_return(true)
+          File.should_receive(:exist?).with(File.expand_path(subject.berksfile_path, env.root_path)).and_return(true)
         end
 
         it "contains an empty Array for the 'berkshelf configuration' key" do

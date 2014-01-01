@@ -33,12 +33,12 @@ module Berkshelf
       def initialize
         super
 
-        @berksfile_path = File.join(Dir.pwd, Berkshelf::DEFAULT_FILENAME)
+        @berksfile_path = UNSET_VALUE
         @except         = Array.new
         @only           = Array.new
-        @node_name      = Berkshelf::Config.instance.chef.node_name
-        @client_key     = Berkshelf::Config.instance.chef.client_key
-        @enabled        = File.exist?(@berksfile_path)
+        @node_name      = UNSET_VALUE
+        @client_key     = UNSET_VALUE
+        @enabled        = UNSET_VALUE
       end
 
       # @param [String] value
@@ -52,6 +52,16 @@ module Berkshelf
       end
 
       alias_method :to_hash, :instance_variables_hash
+
+      def finalize!
+        # Auto-enable if berskfile_path set manually, and no berkshelf_enabled set
+        @enabled = true if @berksfile_path != UNSET_VALUE and @enabled == UNSET_VALUE
+        # If that didn't work, auto-enable if there's a local Berkshelf file (like we used to)
+        @enabled = File.exist?(File.join(Dir.pwd, Berkshelf::DEFAULT_FILENAME)) if @enabled == UNSET_VALUE
+        @berksfile_path = Berkshelf::DEFAULT_FILENAME if @berksfile_path == UNSET_VALUE
+        @node_name = Berkshelf::Config.instance.chef.node_name if @node_name == UNSET_VALUE
+        @client_key = Berkshelf::Config.instance.chef.client_key if @client_key == UNSET_VALUE
+      end
 
       def validate(machine)
         @berksfile_path = File.expand_path(@berksfile_path, machine.env.root_path.to_s)
