@@ -24,7 +24,10 @@ module Berkshelf
             return @app.call(env)
           end
 
-          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(env[:global_config].berkshelf.berksfile_path)
+          opts = env[:machine].config.berkshelf.to_hash.symbolize_keys
+          opts.delete(:except) if opts[:except].empty?
+          opts.delete(:only) if opts[:only].empty?
+          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(env[:global_config].berkshelf.berksfile_path, opts)
 
           if chef_solo?(env)
             install(env)
@@ -42,8 +45,7 @@ module Berkshelf
             env[:berkshelf].ui.info "Updating Vagrant's berkshelf: '#{env[:berkshelf].shelf}'"
             FileUtils.rm_rf(env[:berkshelf].shelf)
 
-            opts = env[:machine].config.berkshelf.to_hash.symbolize_keys
-            env[:berkshelf].berksfile.vendor(env[:berkshelf].shelf, opts)
+            env[:berkshelf].berksfile.vendor(env[:berkshelf].shelf)
           end
 
           def warn_disabled_but_berksfile_exists(env)
