@@ -16,7 +16,7 @@ module Berkshelf
         # this stack will find retrieve and resolve the cookbook dependencies describe
         # in your configured Berksfile.
         #
-        # Cookbooks will installed into a temporary directory, called a Shelf, and mounted
+        # Cookbooks will install into a temporary directory, called a Shelf, and be mounted
         # into the VM. This mounted path will be appended to the chef_solo.cookbooks_path value.
         #
         # @return [::Vagrant::Action::Builder]
