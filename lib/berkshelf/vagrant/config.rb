@@ -75,7 +75,7 @@ module Berkshelf
             errors << "A value for berkshelf.empty and berkshelf.only cannot both be defined."
           end
 
-          if machine.env.config_global.vm.provisioners.any? { |prov| prov.name == :chef_client }
+          if global_provisioners(machine).any? { |prov| prov.name == :chef_client }
             if machine.config.berkshelf.node_name.nil?
               errors << "A configuration must be set for chef.node_name when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
             end
@@ -88,6 +88,12 @@ module Berkshelf
 
         { "berkshelf configuration" => errors }
       end
+
+      private
+
+        def global_provisioners(machine)
+          machine.env.vagrantfile.config.vm.provisioners
+        end
     end
   end
 end
