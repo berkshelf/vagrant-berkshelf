@@ -58,7 +58,7 @@ describe Berkshelf::Vagrant::Config do
     context "when the plugin is enabled" do
       before(:each) do
         subject.stub(enabled: true)
-        env.stub_chain(:config_global, :vm, :provisioners, :any?)
+        env.stub_chain(:vagrantfile, :config, :vm, :provisioners, :any?)
       end
 
       let(:result) { subject.validate(machine) }
