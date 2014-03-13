@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 1.9.1'
 
-  spec.add_dependency 'berkshelf', '>= 3.0.0.beta7'
+  spec.add_dependency 'berkshelf', '~> 2.0.15.dev1'
 
   spec.add_development_dependency 'spork', '~> 0.9'
   spec.add_development_dependency 'rspec', '~> 2.13'
