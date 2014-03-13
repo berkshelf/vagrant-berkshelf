@@ -24,10 +24,7 @@ module Berkshelf
             return @app.call(env)
           end
 
-          opts = env[:machine].config.berkshelf.to_hash.symbolize_keys
-          opts.delete(:except) if opts[:except].empty?
-          opts.delete(:only) if opts[:only].empty?
-          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(berksfile_path(env), opts)
+          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(berksfile_path(env))
 
           if chef_solo?(env)
             install(env)
