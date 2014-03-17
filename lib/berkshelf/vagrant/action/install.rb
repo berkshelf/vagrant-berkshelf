@@ -43,13 +43,13 @@ module Berkshelf
             FileUtils.rm_rf(env[:berkshelf].shelf)
             opts = {
               path: env[:berkshelf].shelf
-            }.merge(env.vagrantfile.berkshelf.to_hash).symbolize_keys!
+            }.merge(env[:machine].env.vagrantfile.config.berkshelf.to_hash).symbolize_keys!
             env[:berkshelf].berksfile.install(opts)
           end
 
           def warn_disabled_but_berksfile_exists(env)
             env[:berkshelf].ui.warn "Berkshelf plugin is disabled but a Berksfile was found at" +
-              " your configured path: #{env.vagrantfile.berkshelf.berksfile_path}"
+              " your configured path: #{env[:machine].env.vagrantfile.config.berkshelf.berksfile_path}"
             env[:berkshelf].ui.warn "Enable the Berkshelf plugin by setting 'config.berkshelf.enabled = true'" +
               " in your vagrant config"
           end
