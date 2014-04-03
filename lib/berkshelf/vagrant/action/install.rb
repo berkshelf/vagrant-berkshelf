@@ -17,7 +17,7 @@ module Berkshelf
           end
 
           unless berkshelf_enabled?(env)
-            if File.exist?(env[:global_config].berkshelf.berksfile_path)
+            if File.exist?(berksfile_path(env))
               warn_disabled_but_berksfile_exists(env)
             end
 
@@ -27,7 +27,7 @@ module Berkshelf
           opts = env[:machine].config.berkshelf.to_hash.symbolize_keys
           opts.delete(:except) if opts[:except].empty?
           opts.delete(:only) if opts[:only].empty?
-          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(env[:global_config].berkshelf.berksfile_path, opts)
+          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(berksfile_path(env), opts)
 
           if chef_solo?(env)
             install(env)
@@ -56,8 +56,8 @@ module Berkshelf
           end
 
           def check_vagrant_version(env)
-            unless vagrant_version_satisfies?(">= 1.1")
-              raise Berkshelf::VagrantWrapperError.new(RuntimeError.new("vagrant-berkshelf requires Vagrant 1.1 or later."))
+            unless vagrant_version_satisfies?(">= 1.5")
+              raise Berkshelf::VagrantWrapperError.new(RuntimeError.new("vagrant-berkshelf requires Vagrant 1.5 or later."))
             end
 
             unless vagrant_version_satisfies?(::Berkshelf::Vagrant::TESTED_REQUIREMENTS)
@@ -70,6 +70,10 @@ module Berkshelf
 
           def vagrant_version_satisfies?(requirements)
             Gem::Requirement.new(requirements).satisfied_by? Gem::Version.new(::Vagrant::VERSION)
+          end
+
+          def berksfile_path(env)
+            env[:machine].env.vagrantfile.config.berkshelf.berksfile_path
           end
       end
     end

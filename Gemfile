@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'vagrant', github: 'mitchellh/vagrant'
+  gem 'vagrant', github: 'mitchellh/vagrant', tag: 'v1.5.0'
 end
 
 group :guard do
