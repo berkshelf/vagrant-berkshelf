@@ -11,7 +11,7 @@ Install Vagrant 1.5.x from the [Vagrant downloads page](http://downloads.vagrant
 
 Install the Vagrant Berkshelf plugin
 
-    $ vagrant plugin install vagrant-berkshelf
+    $ vagrant plugin install vagrant-berkshelf --plugin-version 2.0.0.rc2
 
 ## Usage
 
