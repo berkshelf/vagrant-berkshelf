@@ -3,7 +3,11 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'vagrant', github: 'mitchellh/vagrant', tag: 'v1.5.0'
+  gem 'vagrant', github: 'mitchellh/vagrant', tag: 'v1.5.2'
+end
+
+group :plugins do
+  gem "vagrant-berkshelf", path: "."
 end
 
 group :guard do
