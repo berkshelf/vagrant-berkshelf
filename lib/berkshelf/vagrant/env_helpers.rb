@@ -1,7 +1,5 @@
 module Berkshelf
   module Vagrant
-    # @author Jamie Winsor <jamie@vialstudios.com>
-    #
     # A module of common helper functions that can be mixed into Berkshelf::Vagrant actions
     module EnvHelpers
       # A file to persist vagrant-berkshelf specific information in between

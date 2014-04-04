@@ -1,7 +1,6 @@
 module Berkshelf
   module Vagrant
     module Action
-      # @author Jamie Winsor <jamie@vialstudios.com>
       class Install
         include Berkshelf::Vagrant::EnvHelpers
 

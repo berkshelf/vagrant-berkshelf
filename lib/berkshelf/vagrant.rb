@@ -13,7 +13,6 @@ require_relative 'vagrant/errors'
 require_relative 'vagrant/version'
 
 module Berkshelf
-  # @author Jamie Winsor <jamie@vialstudios.com>
   module Vagrant
     require_relative 'vagrant/action'
     require_relative 'vagrant/config'

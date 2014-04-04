@@ -1,7 +1,5 @@
 module Berkshelf
   module Vagrant
-    # @author Jamie Winsor <jamie@vialstudios.com>
-    #
     # Environment data to build up and persist through the middleware chain
     class Env
       # @return [Vagrant::UI::Colored]

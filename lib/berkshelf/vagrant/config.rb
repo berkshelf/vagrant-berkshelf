@@ -1,6 +1,5 @@
 module Berkshelf
   module Vagrant
-    # @author Jamie Winsor <jamie@vialstudios.com>
     class Config < ::Vagrant.plugin("2", :config)
       # @return [String]
       #   path to the Berksfile to use with Vagrant

@@ -1,8 +1,6 @@
 require 'vagrant/errors'
 
 module Berkshelf
-  # @author Jamie Winsor <jamie@vialstudios.com>
-  #
   # A wrapper for a BerkshelfError for Vagrant. All Berkshelf exceptions should be
   # wrapped in this proxy object so they are properly handled when Vagrant encounters
   # an exception.
