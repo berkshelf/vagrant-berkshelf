@@ -8,6 +8,36 @@ A Vagrant plugin to add Berkshelf integration to the Chef provisioners
 
 ## Installation
 
+### Manually install Gecode (temporary)
+
+The current release candidate of Vagrant Berkshelf requires you to have Gecode installed on your machine. In the future this process will be provided in an easy and automated fashion.
+
+#### OSX
+
+    $ cd $( brew --prefix )
+    $ git checkout 3c5ca25 Library/Formula/gecode.rb
+    $ brew install gecode
+
+#### Debian and Ubuntu
+
+    $ sudo apt-get install libgecode-dev
+
+##### Source
+
+    $ curl -O http://www.gecode.org/download/gecode-3.7.3.tar.gz
+    $ tar zxvf gecode-3.7.3.tar.gz
+    $ ./configure --disable-doc-dot \
+        --disable-doc-search \
+        --disable-doc-tagfile \
+        --disable-doc-chm \
+        --disable-doc-docset \
+        --disable-qt \
+        --disable-examples
+    $ make
+    $ (sudo) make install
+
+### Vagrant & Plugin Installation
+
 Install Vagrant 1.5.x from the [Vagrant downloads page](http://www.vagrantup.com/downloads.html)
 
 Install the Vagrant Berkshelf plugin
