@@ -38,7 +38,7 @@ The current release candidate of Vagrant Berkshelf requires you to have Gecode i
 
 ### Vagrant & Plugin Installation
 
-Install Vagrant 1.5.x from the [Vagrant downloads page](http://www.vagrantup.com/downloads.html)
+Install Vagrant '>= 1.5.2' from the [Vagrant downloads page](http://www.vagrantup.com/downloads.html)
 
 Install the Vagrant Berkshelf plugin
 
