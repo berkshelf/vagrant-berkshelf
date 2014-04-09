@@ -1,6 +1,7 @@
 # 2.0.0
 
 * Enhancements
+  * Support Berkshelf 3.0
   * Support Vagrant 1.5.x
 
 # 1.3.4
