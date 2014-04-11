@@ -36,6 +36,12 @@ The current release candidate of Vagrant Berkshelf requires you to have Gecode i
     $ make
     $ (sudo) make install
 
+### Berkshelf Installation
+
+Install Berkshelf
+
+    $ gem install berkshelf -v '3.0.0.rc1'
+
 ### Vagrant & Plugin Installation
 
 Install Vagrant '>= 1.5.2' from the [Vagrant downloads page](http://www.vagrantup.com/downloads.html)
