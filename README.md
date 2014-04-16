@@ -12,7 +12,7 @@ Install Vagrant '>= 1.5.2' from the [Vagrant downloads page](http://www.vagrantu
 
 Install the Vagrant Berkshelf plugin
 
-    $ vagrant plugin install vagrant-berkshelf --plugin-version 2.0.0.rc3
+    $ vagrant plugin install vagrant-berkshelf --plugin-version 2.0.0
 
 ## Usage
 
