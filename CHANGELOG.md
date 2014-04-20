@@ -1,3 +1,8 @@
+# 2.0.1
+
+* Bug Fixes
+  * Fix gem conflict issue when installing as a ruby gem
+
 # 2.0.0
 
 * Enhancements
