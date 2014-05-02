@@ -13,7 +13,6 @@ describe Berkshelf::Vagrant do
     end
 
     describe "::mkshelf" do
-
       it "returns a String" do
         subject.mkshelf().should be_a(String)
       end
@@ -27,7 +26,6 @@ describe Berkshelf::Vagrant do
         machine_name = 'fantastic_machine'
         subject.mkshelf(machine_name).should include(machine_name)
       end
-
     end
   end
 end

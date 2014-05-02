@@ -35,7 +35,6 @@ module Berkshelf
       # @return [String]
       #   path to the generated shelf
       def mkshelf(machine_name = nil)
-
         unless File.exist?(shelf_path)
           FileUtils.mkdir_p(shelf_path)
         end
