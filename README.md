@@ -26,6 +26,11 @@ Once the Vagrant Berkshelf plugin is installed it can be enabled in your Vagrant
 
 The plugin will look in your current working directory for your `Berksfile` by default. Just ensure that your Berksfile exists and when you run `vagrant up`, `vagrant provision`, or `vagrant destroy` the Berkshelf integration will automatically kick in!
 
+## Getting Help
+
+* If you have an issue: report it on the [issue tracker](https://github.com/berkshelf/berkshelf/issues)
+* If you have a question: visit the #chef or #berkshelf channel on irc.freenode.net
+
 # Authors
 
 - Jamie Winsor (<jamie@vialstudios.com>)
