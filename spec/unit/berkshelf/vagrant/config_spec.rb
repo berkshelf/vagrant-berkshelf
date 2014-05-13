@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Berkshelf::Vagrant::Config do
   let(:unset_value) { described_class::UNSET_VALUE }
-  let(:config) { described_class.new }
+  subject { described_class.new.tap {|s| s.finalize! } }
 
   it "sets a path to a Berksfile in the current working directory for berksfile_path" do
     subject.berksfile_path.should eql(File.join(Dir.pwd, "Berksfile"))
@@ -14,7 +14,7 @@ describe Berkshelf::Vagrant::Config do
     end
 
     it "it sets the value of enabled to true" do
-      config.enabled.should be true
+      subject.enabled.should be true
     end
   end
 
@@ -24,7 +24,7 @@ describe Berkshelf::Vagrant::Config do
     end
 
     it "set the value of enabled to false" do
-      config.enabled.should be false
+      subject.enabled.should be false
     end
   end
 
