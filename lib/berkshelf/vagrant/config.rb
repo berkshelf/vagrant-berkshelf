@@ -32,12 +32,17 @@ module Berkshelf
       def initialize
         super
 
-        @berksfile_path = File.join(Dir.pwd, Berkshelf::DEFAULT_FILENAME)
+        @berksfile_path = UNSET_VALUE
         @except         = Array.new
         @only           = Array.new
         @node_name      = Berkshelf::Config.instance.chef.node_name
         @client_key     = Berkshelf::Config.instance.chef.client_key
-        @enabled        = File.exist?(@berksfile_path)
+        @enabled        = UNSET_VALUE
+      end
+
+      def finalize!
+        @berksfile_path = File.join(Dir.pwd, Berkshelf::DEFAULT_FILENAME) if @berksfile_path == UNSET_VALUE
+        @enabled        = File.exist?(@berksfile_path) if @enabled == UNSET_VALUE
       end
 
       # @param [String] value
