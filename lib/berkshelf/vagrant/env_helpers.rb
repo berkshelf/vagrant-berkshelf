@@ -1,7 +1,31 @@
+require 'buff/shell_out'
+require 'json'
+require 'vagrant/util/which'
+
 module Berkshelf
   module Vagrant
     # A module of common helper functions that can be mixed into Berkshelf::Vagrant actions
     module EnvHelpers
+      BERKS_CONSTRAINT = ">= 3.0.0"
+
+      include Buff::ShellOut
+      include ::Vagrant::Util
+
+      def berks(command, *args)
+        Bundler.with_clean_env do
+          exec      = berks_version_check!
+          options   = args.last.is_a?(Hash) ? args.pop : Hash.new
+          arguments = args.join(" ")
+          flags     = options_to_flags(options)
+
+          command = "#{exec} #{command} #{arguments} #{flags}"
+          unless (response = shell_out(command)).success?
+            raise BerksError, "Berks command Failed: #{command}, reason: #{response.stderr}"
+          end
+          response.stdout
+        end
+      end
+
       # A file to persist vagrant-berkshelf specific information in between
       # Vagrant runs.
       #
@@ -57,6 +81,46 @@ module Berkshelf
       def provision_disabled?(env)
         env.has_key?(:provision_enabled) && !env[:provision_enabled]
       end
+
+      private
+
+        def berks_version_check!
+          if (exec = Which.which("berks")).nil?
+            raise BerksNotFound
+          end
+
+          unless (response = shell_out("#{exec} version -F json")).success?
+            raise "Couldn't determine Berks version: #{response.inspect}"
+          end
+
+          begin
+            version = Gem::Version.new(JSON.parse(response.stdout)["version"])
+            Gem::Requirement.new(BERKS_CONSTRAINT).satisfied_by?(version)
+            exec
+          rescue => ex
+            raise UnsupportedBerksVersion.new(exec, BERKS_CONSTRAINT, version)
+          end
+        end
+
+        def options_to_flags(opts)
+          opts.map do |key, value|
+            if value.nil?
+              symbol_to_flag(key)
+              next
+            end
+
+            if value.is_a?(Array)
+              "#{symbol_to_flag(key)}=#{value.join(" ")}"
+              next
+            end
+
+            "#{symbol_to_flag(key)}=#{value}"
+          end.join(" ")
+        end
+
+        def symbol_to_flag(key)
+          "--#{key.to_s.gsub("_", "-")}"
+        end
     end
   end
 end

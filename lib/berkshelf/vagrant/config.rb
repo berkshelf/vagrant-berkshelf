@@ -1,3 +1,5 @@
+require 'vagrant/util/hash_with_indifferent_access'
+
 module Berkshelf
   module Vagrant
     class Config < ::Vagrant.plugin("2", :config)
@@ -41,7 +43,7 @@ module Berkshelf
       end
 
       def finalize!
-        @berksfile_path = File.join(Dir.pwd, Berkshelf::DEFAULT_FILENAME) if @berksfile_path == UNSET_VALUE
+        @berksfile_path = File.join(Dir.pwd, "Berksfile") if @berksfile_path == UNSET_VALUE
         @enabled        = File.exist?(@berksfile_path) if @enabled == UNSET_VALUE
       end
 
@@ -55,7 +57,9 @@ module Berkshelf
         @client_key = value
       end
 
-      alias_method :to_hash, :instance_variables_hash
+      def to_hash
+        ::Vagrant::Util::HashWithIndifferentAccess.new(instance_variables_hash)
+      end
 
       def validate(machine)
         @berksfile_path = File.expand_path(@berksfile_path, machine.env.root_path.to_s)

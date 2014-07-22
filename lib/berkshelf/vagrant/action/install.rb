@@ -23,28 +23,33 @@ module Berkshelf
             return @app.call(env)
           end
 
-          opts = env[:machine].config.berkshelf.to_hash.symbolize_keys
+          opts = env[:machine].config.berkshelf.to_hash
           opts.delete(:except) if opts[:except].empty?
           opts.delete(:only) if opts[:only].empty?
-          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(berksfile_path(env), opts)
 
           if chef_solo?(env)
-            install(env)
+            vendor(env, opts)
           end
 
           @app.call(env)
-        rescue Berkshelf::BerkshelfError => e
-          raise Berkshelf::VagrantWrapperError.new(e)
+        rescue => ex
+          raise Berkshelf::VagrantWrapperError.new(ex)
         end
 
         private
 
-          def install(env)
+          def vendor(env, opts)
             check_vagrant_version(env)
             env[:berkshelf].ui.info "Updating Vagrant's berkshelf: '#{env[:berkshelf].shelf}'"
             FileUtils.rm_rf(env[:berkshelf].shelf)
 
-            env[:berkshelf].berksfile.vendor(env[:berkshelf].shelf)
+            berks_opts = {
+              berksfile: opts[:berksfile_path]
+            }
+            berks_opts[:except] = opts[:except] if opts.has_key?(:except)
+            berks_opts[:only] = opts[:only] if opts.has_key?(:only)
+
+            env[:berkshelf].ui.info berks("vendor", env[:berkshelf].shelf, berks_opts)
           end
 
           def warn_disabled_but_berksfile_exists(env)

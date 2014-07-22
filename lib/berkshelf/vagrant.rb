@@ -4,7 +4,6 @@ rescue LoadError
   raise 'The Vagrant Berkshelf plugin must be run within Vagrant.'
 end
 
-require 'berkshelf'
 require 'fileutils'
 require 'json'
 require 'tmpdir'
@@ -13,6 +12,19 @@ require_relative 'vagrant/errors'
 require_relative 'vagrant/version'
 
 module Berkshelf
+  class << self
+    # Returns the filepath to the location Berkshelf will use for
+    # storage; temp files will go here, Cookbooks will be downloaded
+    # to or uploaded from here. By default this is '~/.berkshelf' but
+    # can be overridden by specifying a value for the ENV variable
+    # 'BERKSHELF_PATH'.
+    #
+    # @return [String]
+    def berkshelf_path
+      ENV['BERKSHELF_PATH'] || File.expand_path('~/.berkshelf')
+    end
+  end
+
   module Vagrant
     require_relative 'vagrant/action'
     require_relative 'vagrant/config'

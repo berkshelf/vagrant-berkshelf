@@ -28,4 +28,33 @@ module Berkshelf
         original.send(fun, *args, &block)
       end
   end
+
+  class BerksError < ::Vagrant::Errors::VagrantError
+    attr_reader :message
+
+    def initialize(message)
+      @message = message
+      super
+    end
+  end
+
+  class BerksNotFound < ::Vagrant::Errors::VagrantError
+    def error_message
+      "Berks not found. Download the ChefDK from http://downloads.getchef.com/chef-dk and add it to your $PATH."
+    end
+  end
+
+  class UnsupportedBerksVersion < ::Vagrant::Errors::VagrantError
+    def initialize(bin, constraint, version)
+      @bin        = bin
+      @constraint = constraint
+      @version    = version
+      super
+    end
+
+    def message
+      "Unsupported Berkshelf version at: #{@bin}. Requires #{@constraint} and got #{@version}." +
+      " Download the latest version of the ChefDK from http://downloads.getchef.com/chef-dk and add it to your $PATH."
+    end
+  end
 end
