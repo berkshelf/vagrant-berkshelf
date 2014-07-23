@@ -57,4 +57,15 @@ module Berkshelf
       " Download the latest version of the ChefDK from http://downloads.getchef.com/chef-dk and add it to your $PATH."
     end
   end
+
+  class UnsupportedVagrantVersion < ::Vagrant::Errors::VagrantError
+    def initialize(constraint)
+      @constraint = constraint
+      super
+    end
+
+    def message
+      "vagrant-berkshelf requires Vagrant #{@constraint}."
+    end
+  end
 end

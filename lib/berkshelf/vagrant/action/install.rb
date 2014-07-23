@@ -23,12 +23,8 @@ module Berkshelf
             return @app.call(env)
           end
 
-          opts = env[:machine].config.berkshelf.to_hash
-          opts.delete(:except) if opts[:except].empty?
-          opts.delete(:only) if opts[:only].empty?
-
           if chef_solo?(env)
-            vendor(env, opts)
+            vendor(env)
           end
 
           @app.call(env)
@@ -38,16 +34,15 @@ module Berkshelf
 
         private
 
-          def vendor(env, opts)
+          def vendor(env)
             check_vagrant_version(env)
             env[:berkshelf].ui.info "Updating Vagrant's berkshelf: '#{env[:berkshelf].shelf}'"
             FileUtils.rm_rf(env[:berkshelf].shelf)
 
-            berks_opts = {
-              berksfile: opts[:berksfile_path]
-            }
-            berks_opts[:except] = opts[:except] if opts.has_key?(:except)
-            berks_opts[:only] = opts[:only] if opts.has_key?(:only)
+            opts                = env[:machine].config.berkshelf.to_hash
+            berks_opts          = { berksfile: opts[:berksfile_path] }
+            berks_opts[:except] = opts[:except] if opts.has_key?(:except) && !opts[:except].empty?
+            berks_opts[:only]   = opts[:only] if opts.has_key?(:only) && !opts[:only].empty?
 
             env[:berkshelf].ui.info berks("vendor", env[:berkshelf].shelf, berks_opts)
           end
@@ -61,7 +56,7 @@ module Berkshelf
 
           def check_vagrant_version(env)
             unless vagrant_version_satisfies?(">= 1.5")
-              raise Berkshelf::VagrantWrapperError.new(RuntimeError.new("vagrant-berkshelf requires Vagrant 1.5 or later."))
+              raise UnsupportedVagrantVersion.new(">= 1.5")
             end
           end
 

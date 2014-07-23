@@ -11,18 +11,30 @@ module Berkshelf
       include Buff::ShellOut
       include ::Vagrant::Util
 
+      # Execute a berkshelf command with the given arguments and flags.
+      #
+      # @overload berks(command, args)
+      #   @param [String] berks CLI command to run
+      #   @param [Object] any number of arguments to pass to CLI
+      # @overload berks(command, args, options)
+      #   @param [String] berks CLI command to run
+      #   @param [Object] any number of arguments to pass to CLI
+      #   @param [Hash] options to convert to flags for the CLI
+      #
+      # @return [String]
+      #   output of the command
+      #
+      # @raise [UnsupportedBerksVersion]
+      #   version of Berks installed does not satisfy the application's constraint
+      # @raise [BerksNotFound]
+      #   berks command is not found in the user's path
+      # @raise [BerksError]
+      #   CLI command failed
       def berks(command, *args)
-        Bundler.with_clean_env do
-          exec      = berks_version_check!
-          options   = args.last.is_a?(Hash) ? args.pop : Hash.new
-          arguments = args.join(" ")
-          flags     = options_to_flags(options)
-
-          command = "#{exec} #{command} #{arguments} #{flags}"
-          unless (response = shell_out(command)).success?
-            raise BerksError, "Berks command Failed: #{command}, reason: #{response.stderr}"
-          end
-          response.stdout
+        if defined?(Bundler)
+          Bundler.with_clean_env { run_berks(command, *args) }
+        else
+          run_berks(command, *args)
         end
       end
 
@@ -116,6 +128,19 @@ module Berkshelf
 
             "#{symbol_to_flag(key)}=#{value}"
           end.join(" ")
+        end
+
+        def run_berks(command, *args)
+          exec      = berks_version_check!
+          options   = args.last.is_a?(Hash) ? args.pop : Hash.new
+          arguments = args.join(" ")
+          flags     = options_to_flags(options)
+
+          command = "#{exec} #{command} #{arguments} #{flags}"
+          unless (response = shell_out(command)).success?
+            raise BerksError, "Berks command Failed: #{command}, reason: #{response.stderr}"
+          end
+          response.stdout
         end
 
         def symbol_to_flag(key)
