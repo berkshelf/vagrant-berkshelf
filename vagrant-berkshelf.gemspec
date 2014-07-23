@@ -19,9 +19,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 1.9.1'
 
-  spec.add_dependency 'berkshelf',    '~> 3.1'
-  spec.add_dependency 'celluloid',    '~> 0.16.0.pre' # must explicitly lock or a gem conflict with vagrant's
-  spec.add_dependency 'celluloid-io', '~> 0.16.0.pre' # dependencies will arise during installation
+  spec.post_install_message = "In order to use the Vagrant-Berkshelf plugin, you must have ChefDK installed.\n" +
+                              "To download the latest ChefDK visit http://getchef.com/downloads/chef-dk."
+
+  spec.add_dependency "buff-shell_out"
 
   spec.add_development_dependency 'spork', '~> 0.9'
   spec.add_development_dependency 'rspec', '~> 2.13'

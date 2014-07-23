@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module Berkshelf
   module Vagrant
     module Action
@@ -22,25 +24,27 @@ module Berkshelf
           end
 
           @app.call(env)
-        rescue Berkshelf::BerkshelfError => e
-          raise Berkshelf::VagrantWrapperError.new(e)
         end
 
         private
 
           def upload(env)
             provisioners(:chef_client, env).each do |provisioner|
-              env[:berkshelf].ui.info "Uploading cookbooks to '#{provisioner.config.chef_server_url}'"
-              env[:berkshelf].berksfile.upload(
-                server_url: provisioner.config.chef_server_url,
-                client_name: env[:berkshelf].config.chef.node_name,
-                client_key: env[:berkshelf].config.chef.client_key,
-                ssl: {
-                  verify: env[:berkshelf].config.ssl.verify
-                },
-                force: true,
-                freeze: false
-              )
+              begin
+                # Temporarily generate a berkshelf configuration to pass to the CLI since not all versions
+                # of the CLI allow overriding all options needed for upload.
+                tmp_config = Tempfile.new("berks-config")
+                config     = BerksConfig.instance.dup
+                config[:chef][:chef_server_url] = provisioner.config.chef_server_url
+                tmp_config.write(config.to_json)
+                tmp_config.flush
+
+                env[:berkshelf].ui.info "Uploading cookbooks to '#{provisioner.config.chef_server_url}'"
+                berks("upload", config: tmp_config.path, berksfile: berksfile_path(env), force: true,
+                  freeze: false)
+              ensure
+                tmp_config.close! unless tmp_config.nil?
+              end
             end
           end
       end

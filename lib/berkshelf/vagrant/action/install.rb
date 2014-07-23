@@ -23,28 +23,28 @@ module Berkshelf
             return @app.call(env)
           end
 
-          opts = env[:machine].config.berkshelf.to_hash.symbolize_keys
-          opts.delete(:except) if opts[:except].empty?
-          opts.delete(:only) if opts[:only].empty?
-          env[:berkshelf].berksfile = Berkshelf::Berksfile.from_file(berksfile_path(env), opts)
-
           if chef_solo?(env)
-            install(env)
+            vendor(env)
           end
 
           @app.call(env)
-        rescue Berkshelf::BerkshelfError => e
-          raise Berkshelf::VagrantWrapperError.new(e)
+        rescue => ex
+          raise Berkshelf::VagrantWrapperError.new(ex)
         end
 
         private
 
-          def install(env)
+          def vendor(env)
             check_vagrant_version(env)
             env[:berkshelf].ui.info "Updating Vagrant's berkshelf: '#{env[:berkshelf].shelf}'"
             FileUtils.rm_rf(env[:berkshelf].shelf)
 
-            env[:berkshelf].berksfile.vendor(env[:berkshelf].shelf)
+            opts                = env[:machine].config.berkshelf.to_hash
+            berks_opts          = { berksfile: opts[:berksfile_path] }
+            berks_opts[:except] = opts[:except] if opts.has_key?(:except) && !opts[:except].empty?
+            berks_opts[:only]   = opts[:only] if opts.has_key?(:only) && !opts[:only].empty?
+
+            env[:berkshelf].ui.info berks("vendor", env[:berkshelf].shelf, berks_opts)
           end
 
           def warn_disabled_but_berksfile_exists(env)
@@ -56,16 +56,12 @@ module Berkshelf
 
           def check_vagrant_version(env)
             unless vagrant_version_satisfies?(">= 1.5")
-              raise Berkshelf::VagrantWrapperError.new(RuntimeError.new("vagrant-berkshelf requires Vagrant 1.5 or later."))
+              raise UnsupportedVagrantVersion.new(">= 1.5")
             end
           end
 
           def vagrant_version_satisfies?(requirements)
             Gem::Requirement.new(requirements).satisfied_by? Gem::Version.new(::Vagrant::VERSION)
-          end
-
-          def berksfile_path(env)
-            env[:machine].env.vagrantfile.config.berkshelf.berksfile_path
           end
       end
     end

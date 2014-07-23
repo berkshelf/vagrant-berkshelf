@@ -1,3 +1,5 @@
+require 'vagrant/util/hash_with_indifferent_access'
+
 module Berkshelf
   module Vagrant
     class Config < ::Vagrant.plugin("2", :config)
@@ -35,13 +37,13 @@ module Berkshelf
         @berksfile_path = UNSET_VALUE
         @except         = Array.new
         @only           = Array.new
-        @node_name      = Berkshelf::Config.instance.chef.node_name
-        @client_key     = Berkshelf::Config.instance.chef.client_key
+        @node_name      = BerksConfig.instance.chef[:node_name]
+        @client_key     = BerksConfig.instance.chef[:client_key]
         @enabled        = UNSET_VALUE
       end
 
       def finalize!
-        @berksfile_path = File.join(Dir.pwd, Berkshelf::DEFAULT_FILENAME) if @berksfile_path == UNSET_VALUE
+        @berksfile_path = File.join(Dir.pwd, "Berksfile") if @berksfile_path == UNSET_VALUE
         @enabled        = File.exist?(@berksfile_path) if @enabled == UNSET_VALUE
       end
 
@@ -55,12 +57,18 @@ module Berkshelf
         @client_key = value
       end
 
-      alias_method :to_hash, :instance_variables_hash
+      def to_hash
+        ::Vagrant::Util::HashWithIndifferentAccess.new(instance_variables_hash)
+      end
 
       def validate(machine)
-        @berksfile_path = File.expand_path(@berksfile_path, machine.env.root_path.to_s)
-        @client_key = File.expand_path(@client_key, machine.env.root_path.to_s)
         errors = Array.new
+        unless @berksfile_path.nil?
+          @berksfile_path = File.expand_path(@berksfile_path, machine.env.root_path.to_s)
+        end
+        unless @client_key.nil?
+          @client_key = File.expand_path(@client_key, machine.env.root_path.to_s)
+        end
 
         unless [TrueClass, FalseClass].include?(enabled.class)
           errors << "A value for berkshelf.enabled can be true or false."
@@ -81,16 +89,18 @@ module Berkshelf
 
           if global_provisioners(machine).any? { |prov| prov.name == :chef_client }
             if machine.config.berkshelf.node_name.nil?
-              errors << "A configuration must be set for chef.node_name when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
+              errors << "A configuration must be set node_name when using the chef_client provisioner." +
+                        " Edit your berkshelf configuration and add a value for chef.node_name."
             end
 
             if machine.config.berkshelf.client_key.nil?
-              errors << "A configuration must be set for chef.client_key when using the chef_client provisioner. Run 'berks configure' or edit your configuration."
+              errors << "A configuration must be set for client_key when using the chef_client provisioner." +
+                        " Edit your berkshelf configuration and add a value for chef.client_key."
             end
           end
         end
 
-        { "berkshelf configuration" => errors }
+        {"berkshelf configuration" => errors}
       end
 
       private

@@ -8,7 +8,6 @@ module Berkshelf
       require_relative 'action/configure_chef'
       require_relative 'action/install'
       require_relative 'action/load_shelf'
-      require_relative 'action/set_ui'
       require_relative 'action/upload'
 
       class << self
@@ -55,7 +54,6 @@ module Berkshelf
         def setup
           @setup ||= ::Vagrant::Action::Builder.new.tap do |b|
             b.use ::Vagrant::Action::Builtin::EnvSet, berkshelf: Berkshelf::Vagrant::Env.new
-            b.use Berkshelf::Vagrant::Action::SetUI
             b.use Berkshelf::Vagrant::Action::LoadShelf
             b.use Berkshelf::Vagrant::Action::ConfigureChef
           end

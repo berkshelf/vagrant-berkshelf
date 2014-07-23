@@ -4,17 +4,12 @@ module Berkshelf
     class Env
       # @return [Vagrant::UI::Colored]
       attr_accessor :ui
-      # @return [Berkshelf::Berksfile]
-      attr_accessor :berksfile
       # @return [String]
       attr_accessor :shelf
-      # @return [Berkshelf::Config]
-      attr_accessor :config
 
       def initialize
-        @ui = ::Vagrant::UI::Colored.new
+        @ui               = ::Vagrant::UI::Colored.new
         @ui.opts[:target] = 'Berkshelf'
-        @config = Berkshelf::Config.instance
       end
     end
   end
