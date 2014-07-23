@@ -30,10 +30,10 @@ module Berkshelf
   end
 
   class BerksError < ::Vagrant::Errors::VagrantError
-    attr_reader :message
+    attr_reader :error_message
 
     def initialize(message)
-      @message = message
+      @error_message = message
       super
     end
   end
@@ -52,7 +52,7 @@ module Berkshelf
       super
     end
 
-    def message
+    def error_message
       "Unsupported Berkshelf version at: #{@bin}. Requires #{@constraint} and got #{@version}." +
       " Download the latest version of the ChefDK from http://downloads.getchef.com/chef-dk and add it to your $PATH."
     end
@@ -64,7 +64,7 @@ module Berkshelf
       super
     end
 
-    def message
+    def error_message
       "vagrant-berkshelf requires Vagrant #{@constraint}."
     end
   end

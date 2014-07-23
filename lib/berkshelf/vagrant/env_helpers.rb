@@ -38,6 +38,10 @@ module Berkshelf
         end
       end
 
+      def berksfile_path(env)
+        env[:machine].env.vagrantfile.config.berkshelf.berksfile_path
+      end
+
       # A file to persist vagrant-berkshelf specific information in between
       # Vagrant runs.
       #
@@ -116,17 +120,22 @@ module Berkshelf
 
         def options_to_flags(opts)
           opts.map do |key, value|
-            if value.nil?
-              symbol_to_flag(key)
+            if value.is_a?(TrueClass)
+              "--#{key_to_flag(key)}"
+              next
+            end
+
+            if value.is_a?(FalseClass)
+              "--no-#{key_to_flag(key)}"
               next
             end
 
             if value.is_a?(Array)
-              "#{symbol_to_flag(key)}=#{value.join(" ")}"
+              "--#{key_to_flag(key)}=#{value.join(" ")}"
               next
             end
 
-            "#{symbol_to_flag(key)}=#{value}"
+            "--#{key_to_flag(key)}=#{value}"
           end.join(" ")
         end
 
@@ -138,13 +147,13 @@ module Berkshelf
 
           command = "#{exec} #{command} #{arguments} #{flags}"
           unless (response = shell_out(command)).success?
-            raise BerksError, "Berks command Failed: #{command}, reason: #{response.stderr}"
+            raise BerksError.new("Berks command Failed: #{command}, reason: #{response.stderr}")
           end
           response.stdout
         end
 
-        def symbol_to_flag(key)
-          "--#{key.to_s.gsub("_", "-")}"
+        def key_to_flag(key)
+          "#{key.to_s.gsub("_", "-")}"
         end
     end
   end

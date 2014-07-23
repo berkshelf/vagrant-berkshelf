@@ -11,7 +11,9 @@ Vagrant.configure("2") do |config|
 
   config.omnibus.chef_version = :latest
 
-  config.vm.provision :chef_solo do |chef|
-    chef.run_list = ["apt::default"]
+  config.vm.provision :chef_client do |chef|
+    chef.chef_server_url     = "https://api.opscode.com/organizations/undeadlabs"
+    chef.validation_key_path = File.expand_path("~/.chef/undeadlabs-validator.pem")
+    chef.run_list            = ["apt::default"]
   end
 end

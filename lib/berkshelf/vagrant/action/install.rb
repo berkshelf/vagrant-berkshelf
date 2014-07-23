@@ -63,10 +63,6 @@ module Berkshelf
           def vagrant_version_satisfies?(requirements)
             Gem::Requirement.new(requirements).satisfied_by? Gem::Version.new(::Vagrant::VERSION)
           end
-
-          def berksfile_path(env)
-            env[:machine].env.vagrantfile.config.berkshelf.berksfile_path
-          end
       end
     end
   end
