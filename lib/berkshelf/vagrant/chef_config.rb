@@ -35,9 +35,13 @@ module Berkshelf::Vagrant
       end
 
       def from_file(file = nil)
-        file     = file.nil? ? location : file
-        contents = File.read(file)
-        parse(contents, file)
+        file = file.nil? ? location : file
+        if !file.nil? && File.exist?(file) && File.readable?(file)
+          contents = File.read(file)
+          return parse(contents, file)
+        end
+
+        new
       end
 
       def parse(contents, path = nil)
@@ -45,7 +49,7 @@ module Berkshelf::Vagrant
       end
     end
 
-    def initialize(contents, path)
+    def initialize(contents = "", path = "")
       instance_eval(contents, path)
     end
 
