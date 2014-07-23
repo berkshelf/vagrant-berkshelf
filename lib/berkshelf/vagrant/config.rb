@@ -62,9 +62,13 @@ module Berkshelf
       end
 
       def validate(machine)
-        @berksfile_path = File.expand_path(@berksfile_path, machine.env.root_path.to_s)
-        @client_key     = File.expand_path(@client_key, machine.env.root_path.to_s)
-        errors          = Array.new
+        errors = Array.new
+        unless @berksfile_path.nil?
+          @berksfile_path = File.expand_path(@berksfile_path, machine.env.root_path.to_s)
+        end
+        unless @client_key.nil?
+          @client_key = File.expand_path(@client_key, machine.env.root_path.to_s)
+        end
 
         unless [TrueClass, FalseClass].include?(enabled.class)
           errors << "A value for berkshelf.enabled can be true or false."
