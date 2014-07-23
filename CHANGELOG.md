@@ -1,3 +1,14 @@
+# 3.0.0
+
+* Enhancements
+  * Now leverages the Berkshelf version installed by ChefDK
+  * Installation process of plugin should be many, many times faster
+
+* Bug Fixes
+  * Fix many installation issues for Windows users
+  * Fix warning output of berkshelf path when berkshelf is disabled but a Berksfile is present
+  * Ensure default values for configuration are properly set
+
 # 2.0.1
 
 * Bug Fixes
