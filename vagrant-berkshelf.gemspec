@@ -19,8 +19,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 1.9.1'
 
-  spec.post_install_message = "Installing the Vagrant-Berkshelf plugin is only the first Step!\n" +
-                              "Download and install the ChefDK (http://getchef.com/downloads/chef-dk) to get Berkshelf."
+  spec.post_install_message = "In order to use the Vagrant-Berkshelf plugin, you must have ChefDK installed.\n" +
+                              "To download the latest ChefDK visit http://getchef.com/downloads/chef-dk."
 
   spec.add_dependency "buff-shell_out"
 
