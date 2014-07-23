@@ -38,12 +38,12 @@ describe Berkshelf::Vagrant::Config do
     subject.except.should be_empty
   end
 
-  it "sets the value of node_name to the value in the Berkshelf::Config.instance" do
-    subject.node_name.should eql(Berkshelf::Config.instance.chef.node_name)
+  it "sets the value of node_name to the value in the Berkshelf::Vagrant::BerksConfig.instance" do
+    subject.node_name.should eql(Berkshelf::Vagrant::BerksConfig.instance.chef.node_name)
   end
 
-  it "sets the value of client_key to the value in Berkshelf::Config.instance" do
-    subject.client_key.should eql(Berkshelf::Config.instance.chef.client_key)
+  it "sets the value of client_key to the value in Berkshelf::Vagrant::BerksConfig.instance" do
+    subject.client_key.should eql(Berkshelf::Vagrant::BerksConfig.instance.chef.client_key)
   end
 
   describe "#validate" do

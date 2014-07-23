@@ -26,6 +26,8 @@ module Berkshelf
   end
 
   module Vagrant
+    require_relative 'vagrant/chef_config'
+    require_relative 'vagrant/berks_config'
     require_relative 'vagrant/action'
     require_relative 'vagrant/config'
     require_relative 'vagrant/env'

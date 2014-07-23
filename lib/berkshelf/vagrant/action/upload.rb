@@ -33,10 +33,10 @@ module Berkshelf
               env[:berkshelf].ui.info "Uploading cookbooks to '#{provisioner.config.chef_server_url}'"
               env[:berkshelf].berksfile.upload(
                 server_url: provisioner.config.chef_server_url,
-                client_name: env[:berkshelf].config.chef.node_name,
-                client_key: env[:berkshelf].config.chef.client_key,
+                client_name: env[:berkshelf].config.chef[:node_name],
+                client_key: env[:berkshelf].config.chef[:client_key],
                 ssl: {
-                  verify: env[:berkshelf].config.ssl.verify
+                  verify: env[:berkshelf].config.ssl[:verify]
                 },
                 force: true,
                 freeze: false

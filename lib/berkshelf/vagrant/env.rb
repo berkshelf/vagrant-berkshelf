@@ -4,8 +4,6 @@ module Berkshelf
     class Env
       # @return [Vagrant::UI::Colored]
       attr_accessor :ui
-      # @return [Berkshelf::Berksfile]
-      attr_accessor :berksfile
       # @return [String]
       attr_accessor :shelf
 
