@@ -19,23 +19,13 @@ module Berkshelf::Vagrant
         File.expand_path(path)
       end
 
-      # @return [String, nil]
-      #   the contents of the file
-      def file
-        File.read(path) if File.exists?(path)
-      end
-
-      def from_json(path)
-        JSON.parse(File.read(path))
-      end
-
       # Instantiate and return or just return the currently instantiated Berkshelf
       # configuration
       #
       # @return [Config]
       def instance
-        @instance ||= if file
-          from_json file
+        @instance ||= if File.exists?(path) && File.readable?(path)
+          JSON.parse(File.read(path))
         else
           new
         end
