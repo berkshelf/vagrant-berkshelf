@@ -1,3 +1,8 @@
+# 3.0.1
+
+* Bug Fixes
+  * Fix issue loading configuration from a Berkshelf config.json
+
 # 3.0.0
 
 * Enhancements
