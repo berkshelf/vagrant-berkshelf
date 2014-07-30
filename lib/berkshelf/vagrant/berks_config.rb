@@ -25,15 +25,16 @@ module Berkshelf::Vagrant
       # @return [Config]
       def instance
         @instance ||= if File.exists?(path) && File.readable?(path)
-          JSON.parse(File.read(path))
+          new(JSON.parse(File.read(path)))
         else
           new
         end
       end
     end
 
-    def initialize
-      super(chef: ChefConfig.instance, ssl: ::Vagrant::Util::HashWithIndifferentAccess.new(verify: false))
+    def initialize(attributes = {})
+      attributes.merge!(chef: ChefConfig.instance, ssl: ::Vagrant::Util::HashWithIndifferentAccess.new(verify: false))
+      super(attributes)
     end
 
     def chef
