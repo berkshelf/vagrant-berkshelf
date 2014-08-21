@@ -3,8 +3,8 @@ module Berkshelf
     class Plugin < ::Vagrant.plugin("2")
       class << self
         def provision(hook)
-          hook.after(::Vagrant::Action::Builtin::Provision, Berkshelf::Vagrant::Action.upload)
-          hook.after(::Vagrant::Action::Builtin::Provision, Berkshelf::Vagrant::Action.install)
+          hook.before(::Vagrant::Action::Builtin::Provision, Berkshelf::Vagrant::Action.upload)
+          hook.before(::Vagrant::Action::Builtin::Provision, Berkshelf::Vagrant::Action.install)
 
           # vagrant-aws < 0.4.0 uses a non-standard provision action
           if defined?(VagrantPlugins::AWS::Action::TimedProvision)
@@ -31,6 +31,11 @@ module Berkshelf
         #   Virtualbox specific destroy step but there is a bug in Vagrant (1.1.0) which
         #   causes appended middleware to run multiple times.
         hook.after(VagrantPlugins::ProviderVirtualBox::Action::DestroyUnusedNetworkInterfaces, Berkshelf::Vagrant::Action.clean)
+
+        if defined?(VagrantPlugins::ProviderLibvirt::Action::DestroyNetworks)
+          hook.after(VagrantPlugins::ProviderLibvirt::Action::DestroyNetworks, Berkshelf::Vagrant::Action.clean)
+        end
+
       end
 
       config(:berkshelf) do
