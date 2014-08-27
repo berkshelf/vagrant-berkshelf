@@ -37,14 +37,16 @@ module Berkshelf
         @berksfile_path = UNSET_VALUE
         @except         = Array.new
         @only           = Array.new
-        @node_name      = BerksConfig.instance.chef[:node_name]
-        @client_key     = BerksConfig.instance.chef[:client_key]
+        @node_name      = UNSET_VALUE
+        @client_key     = UNSET_VALUE
         @enabled        = UNSET_VALUE
       end
 
       def finalize!
         @berksfile_path = File.join(Dir.pwd, "Berksfile") if @berksfile_path == UNSET_VALUE
         @enabled        = File.exist?(@berksfile_path) if @enabled == UNSET_VALUE
+        @node_name      = BerksConfig.instance.chef[:node_name] if @node_name == UNSET_VALUE
+        @client_key     = BerksConfig.instance.chef[:client_key] if @client_key == UNSET_VALUE
       end
 
       # @param [String] value
