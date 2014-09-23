@@ -1,6 +1,7 @@
 require 'buff/shell_out'
 require 'json'
 require 'vagrant/util/which'
+require 'shellwords'
 
 module Berkshelf
   module Vagrant
@@ -131,11 +132,13 @@ module Berkshelf
             end
 
             if value.is_a?(Array)
-              "--#{key_to_flag(key)}=#{value.join(" ")}"
+              value = value.map { |v| Shellwords.escape(v) }.join(" ")
+
+              "--#{key_to_flag(key)}=#{value}"
               next
             end
 
-            "--#{key_to_flag(key)}=#{value}"
+            "--#{key_to_flag(key)}=#{Shellwords.escape(value)}"
           end.join(" ")
         end
 
