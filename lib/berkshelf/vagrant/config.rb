@@ -91,7 +91,7 @@ module Berkshelf
 
           if global_provisioners(machine).any? { |prov| prov.name == :chef_client }
             if machine.config.berkshelf.node_name.nil?
-              errors << "A configuration must be set node_name when using the chef_client provisioner." +
+              errors << "A configuration must be set for node_name when using the chef_client provisioner." +
                         " Edit your berkshelf configuration and add a value for chef.node_name."
             end
 
