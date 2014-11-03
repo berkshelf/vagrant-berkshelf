@@ -23,7 +23,7 @@ module Berkshelf
             return @app.call(env)
           end
 
-          if chef_solo?(env)
+          if chef_solo?(env) || chef_zero?(env)
             vendor(env)
           end
 
