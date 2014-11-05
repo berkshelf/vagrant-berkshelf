@@ -19,6 +19,12 @@ module Berkshelf
             end
           end
 
+          if chef_zero?(env) && shelf = env[:berkshelf].shelf
+            provisioners(:chef_zero, env).each do |provisioner|
+              provisioner.config.cookbooks_path = provisioner.config.send(:prepare_folders_config, shelf)
+            end
+          end
+
           @app.call(env)
         end
       end

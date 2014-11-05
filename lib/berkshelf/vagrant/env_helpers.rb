@@ -79,6 +79,15 @@ module Berkshelf
         provisioners(:chef_solo, env).any?
       end
 
+      # Determine if the given vagrant environment contains a chef_zero provisioner
+      #
+      # @param [Vagrant::Environment] env
+      #
+      # @return [Boolean]
+      def chef_zero?(env)
+        provisioners(:chef_zero, env).any?
+      end
+
       # Determine if the given vagrant environment contains a chef_client provisioner
       #
       # @param [Vagrant::Environment] env
