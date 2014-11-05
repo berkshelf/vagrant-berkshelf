@@ -59,8 +59,15 @@ module Berkshelf
       #   environment to inspect
       #
       # @return [Array]
-      def provisioners(name, env)
-        env[:machine].config.vm.provisioners.select { |prov| prov.name == name }
+      def provisioners(type, env)
+        env[:machine].config.vm.provisioners.select do |prov|
+          # Vagrant 1.7 changes prov.name to prov.type
+          if prov.respond_to? :type
+            prov.type == type
+          else
+            prov.name == type
+          end
+        end
       end
 
       # Determine if the given vagrant environment contains a chef_solo provisioner
