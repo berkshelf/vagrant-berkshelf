@@ -4,7 +4,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require 'bundler'
 require 'bundler/setup'
 require 'thor/rake_compat'
-require 'berkshelf/vagrant'
+require 'vagrant-berkshelf'
 
 GEM_PKG = "vagrant-berkshelf-#{Berkshelf::Vagrant::VERSION}.gem".freeze
 
