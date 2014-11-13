@@ -3,9 +3,6 @@ require 'bundler/setup'
 require 'spork'
 
 Spork.prefork do
-  APP_ROOT = File.expand_path('../../', __FILE__)
-  ENV["BERKSHELF_PATH"] = File.join(APP_ROOT, 'spec', 'tmp', 'berkshelf')
-
   require 'rspec'
 
   RSpec.configure do |config|
@@ -18,5 +15,5 @@ Spork.prefork do
 end
 
 Spork.each_run do
-  require 'berkshelf/vagrant'
+  require 'vagrant-berkshelf'
 end
