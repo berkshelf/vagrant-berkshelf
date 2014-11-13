@@ -23,7 +23,7 @@ Install the latest version of [Bundler](http://gembundler.com)
 
 Clone the project
 
-    $ git clone git://github.com/berkshelf/vagrant-berkshelf.git
+    $ git clone https://github.com/berkshelf/vagrant-berkshelf.git
 
 and run:
 
@@ -32,11 +32,11 @@ and run:
 
 Bundler will install all gems and their dependencies required for testing and developing.
 
-### Running unit (RSpec) tests
+### Running tests
 
-One-time run with Thor
+One-time run with Rake
 
-    $ bundle exec thor spec
+    $ bundle exec rake spec
 
 Or you can setup a quick feedback loop with Guard
 
