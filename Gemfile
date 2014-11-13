@@ -7,7 +7,7 @@ group :development do
 end
 
 group :plugins do
-  gem "vagrant-berkshelf", path: "."
+  gem 'vagrant-berkshelf', path: '.'
 end
 
 group :guard do

@@ -13,4 +13,4 @@ notifications:
 
 bundler_args: --without doc guard --jobs 7
 
-script: bundle exec thor spec:ci
+script: bundle exec rake
