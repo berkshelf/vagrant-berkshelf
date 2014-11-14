@@ -17,6 +17,7 @@ module VagrantPlugins
         # Provision the VM, calling setup, install, and upload.
         def self.provision
           Vagrant::Action::Builder.new.tap do |b|
+            b.use Action::Save
             b.use Action::Install
             b.use Action::Upload
           end
