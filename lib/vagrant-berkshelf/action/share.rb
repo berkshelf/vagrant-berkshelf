@@ -10,11 +10,6 @@ module VagrantPlugins
             return @app.call(env)
           end
 
-          if !provision_enabled?(env)
-            @logger.info "Provisioning disabled, skipping"
-            return @app.call(env)
-          end
-
           if !chef_solo?(env) && !chef_zero?(env)
             @logger.info "Provisioner does not need a share"
             return @app.call(env)

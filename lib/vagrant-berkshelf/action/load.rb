@@ -19,23 +19,12 @@ module VagrantPlugins
             env[:berkshelf].shelf = shelf
           end
 
-          if !provision_enabled?(env)
-            @logger.info "Provisioning disabled, skipping"
-            return @app.call(env)
-          end
-
           if !env[:berkshelf].shelf
             shelf = mkshelf(env)
             env[:machine].ui.detail "The Berkshelf shelf is at #{shelf.inspect}"
 
             @logger.debug "Persisting datafile share to memory"
             env[:berkshelf].shelf = shelf
-
-            @logger.debug "Saving datafile to disk"
-            FileUtils.mkdir_p(datafile_path(env).dirname)
-            datafile_path(env).open("w+") do |f|
-              f.write(env[:berkshelf].shelf)
-            end
           end
 
           @app.call(env)
