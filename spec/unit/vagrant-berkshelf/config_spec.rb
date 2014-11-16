@@ -10,53 +10,12 @@ describe VagrantPlugins::Berkshelf::Config do
       subject.finalize!
       expect(subject.berksfile_path).to be(nil)
     end
-
-    it "sets the value if it exists" do
-      allow(File).to receive(:exist?)
-        .with("Berksfile")
-        .and_return(true)
-      subject.finalize!
-      expect(subject.berksfile_path).to eq("Berksfile")
-    end
   end
 
   describe "#enabled" do
-    it "is true when there is a Berksfile present" do
-      allow(File).to receive(:exist?)
-        .with("Berksfile")
-        .and_return(true)
+    it "defaults to MAYBE" do
       subject.finalize!
-      expect(subject.enabled).to be(true)
-    end
-
-    it "is false when there is a Berksfile present but it is disabled" do
-      allow(File).to receive(:exist?)
-        .with("Berksfile")
-        .and_return(true)
-        subject.enabled = false
-      subject.finalize!
-      expect(subject.enabled).to be(false)
-    end
-
-    it "is true when a berksfile_path is given" do
-      subject.berksfile_path = "Berksfile"
-      subject.finalize!
-      expect(subject.enabled).to be(true)
-    end
-
-    it "is false when the berksfile_path is given but it is disabled" do
-      subject.berksfile_path = "Berksfile"
-      subject.enabled = false
-      subject.finalize!
-      expect(subject.enabled).to be(false)
-    end
-
-    it "defaults to false" do
-      allow(File).to receive(:exist?)
-        .with("Berksfile")
-        .and_return(false)
-      subject.finalize!
-      expect(subject.enabled).to be(false)
+      expect(subject.enabled).to be(VagrantPlugins::Berkshelf::Config::MAYBE)
     end
   end
 
@@ -88,7 +47,7 @@ describe VagrantPlugins::Berkshelf::Config do
     before do
       allow(machine).to receive(:env)
         .and_return(double("env",
-          root_path: "",
+          root_path: File.expand_path("..", __FILE__),
         ))
 
       subject.berksfile_path = "Berksfile"
@@ -98,21 +57,82 @@ describe VagrantPlugins::Berkshelf::Config do
       subject.args = []
     end
 
-    let(:result) { subject.validate(machine) }
+    let(:result) do
+      subject.finalize!
+      subject.validate(machine)
+    end
+
     let(:errors) { result["Berkshelf"] }
 
-    context "when the berksfile_path is nil" do
+    context "when enabled is false" do
+      before { subject.enabled = false }
+
+      it "returns no errors" do
+        expect(errors).to be_empty
+      end
+
+      it "remains disabled even if a Berksfile is present" do
+        allow(File).to receive(:exist?).and_return(true)
+        expect(errors).to be_empty
+        expect(subject.enabled).to be(false)
+      end
+
+      it "remains disabled even if a berksfile_path is given" do
+        subject.berksfile_path = "Custom.Berksfile"
+        expect(errors).to be_empty
+        expect(subject.enabled).to be(false)
+      end
+    end
+
+    context "when no berksfile_path is given" do
+      before { subject.berksfile_path = nil }
+
+      context "when a Berksfile is present" do
+        before { allow(File).to receive(:exist?).and_return(true) }
+
+        it "sets the berksfile_path" do
+          expect(errors).to be_empty
+          expect(subject.berksfile_path).to eq(File.expand_path("../Berksfile", __FILE__))
+        end
+      end
+    end
+
+    context "when a berksfile_path is given" do
+      before { subject.berksfile_path = "Custom.Berksfile" }
+
+      let(:expanded_path) { File.expand_path("../Custom.Berksfile", __FILE__) }
+
+      context "when another Berksfile is present" do
+        before { allow(File).to receive(:exist?).and_return(true) }
+
+        it "does not change the berksfile_path" do
+          expect(errors).to be_empty
+          expect(subject.berksfile_path).to eq(expanded_path)
+        end
+
+        it "expands the path relative to the machine root" do
+          subject.finalize!
+          subject.validate(machine)
+          expect(subject.berksfile_path).to eq(expanded_path)
+        end
+      end
+
+      context "when the given berksfile_path does not exist" do
+        before { allow(File).to receive(:exist?).and_return(false) }
+
+        it "returns an error" do
+          expect(errors).to include("Berksfile at '#{expanded_path}' does not exist")
+        end
+      end
+    end
+
+    context "when the berksfile_path is nil and no Berksfile exists" do
+      before { allow(File).to receive(:exist?).and_return(false) }
+
       it "returns an error if enabled" do
         subject.berksfile_path = ""
         subject.finalize!
         expect(errors).to include("berksfile_path must be set")
-      end
-
-      it "does not returns an error if disabled" do
-        subject.berksfile_path = ""
-        subject.enabled = false
-        subject.finalize!
-        expect(errors).to eq([])
       end
     end
   end

@@ -4,6 +4,8 @@ require 'vagrant/util/hash_with_indifferent_access'
 module VagrantPlugins
   module Berkshelf
     class Config < Vagrant.plugin("2", :config)
+      MAYBE = Object.new.freeze
+
       # The path to the Berksfile to use.
       # @return [String]
       attr_accessor :berksfile_path
@@ -38,19 +40,7 @@ module VagrantPlugins
 
       def finalize!
         @berksfile_path = nil if @berksfile_path == UNSET_VALUE
-
-        if @enabled == UNSET_VALUE
-          if @berksfile_path
-            # Automatically enable if a Berksfile path was given
-            @enabled = true
-          elsif File.exist?("Berksfile")
-            # Automatically enable when a Berksfile is persent
-            @berksfile_path = "Berksfile"
-            @enabled = true
-          end
-        end
-
-        @enabled = false if @enabled == UNSET_VALUE
+        @enabled = MAYBE if @enabled == UNSET_VALUE
 
         @__finalized = true
       end
@@ -58,12 +48,30 @@ module VagrantPlugins
       def validate(machine)
         errors = _detected_errors
 
-        if @enabled
-          if @berksfile_path.to_s.strip.empty?
+        if @enabled || @enabled == MAYBE
+          # If no Berksfile path was given, check if one is in the working
+          # directory
+          if !@berksfile_path
+            path = File.expand_path("Berksfile", machine.env.root_path)
+
+            if File.exist?(path)
+              @enabled = true
+              @berksfile_path = path
+            end
+          end
+
+          # Berksfile_path validations
+          if missing?(@berksfile_path)
             errors << "berksfile_path must be set"
           else
-            unless Pathname.new(@berksfile_path).absolute?
+            # Expand the path unless it is absolute
+            if !Pathname.new(@berksfile_path).absolute?
               @berksfile_path = File.expand_path(@berksfile_path, machine.env.root_path)
+            end
+
+            # Ensure the path exists
+            if !File.exist?(@berksfile_path)
+              errors << "Berksfile at '#{@berksfile_path}' does not exist"
             end
           end
         end
@@ -81,6 +89,10 @@ module VagrantPlugins
           only:           @only,
           args:           @args,
         }
+      end
+
+      def missing?(obj)
+        obj.to_s.strip.empty?
       end
     end
   end
