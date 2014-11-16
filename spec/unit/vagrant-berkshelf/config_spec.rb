@@ -95,6 +95,25 @@ describe VagrantPlugins::Berkshelf::Config do
           expect(subject.berksfile_path).to eq(File.expand_path("../Berksfile", __FILE__))
         end
       end
+
+      context "when a Berksfile is not present" do
+        before { allow(File).to receive(:exist?).and_return(false) }
+
+        context "when the plugin is enabled" do
+          it "returns an error" do
+            subject.enabled = true
+            expect(errors).to include("berksfile_path must be set")
+          end
+        end
+
+        context "when the plugin is in MAYBE state" do
+          it "disables the plugin" do
+            subject.enabled = VagrantPlugins::Berkshelf::Config::MAYBE
+            expect(errors).to be_empty
+            expect(subject.enabled).to be(false)
+          end
+        end
+      end
     end
 
     context "when a berksfile_path is given" do

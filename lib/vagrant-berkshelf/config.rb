@@ -57,21 +57,29 @@ module VagrantPlugins
             if File.exist?(path)
               @enabled = true
               @berksfile_path = path
+            else
+              # Disable the plugin unless it was specifically set to "true". If
+              # the user set the value, we want to return an error, but if the
+              # user did not explicitly enable the plugin, we should just
+              # disable it automatically.
+              @enabled = false unless @enabled == true
             end
           end
 
-          # Berksfile_path validations
-          if missing?(@berksfile_path)
-            errors << "berksfile_path must be set"
-          else
-            # Expand the path unless it is absolute
-            if !Pathname.new(@berksfile_path).absolute?
-              @berksfile_path = File.expand_path(@berksfile_path, machine.env.root_path)
-            end
+          if @enabled
+            # Berksfile_path validations
+            if missing?(@berksfile_path)
+              errors << "berksfile_path must be set"
+            else
+              # Expand the path unless it is absolute
+              if !Pathname.new(@berksfile_path).absolute?
+                @berksfile_path = File.expand_path(@berksfile_path, machine.env.root_path)
+              end
 
-            # Ensure the path exists
-            if !File.exist?(@berksfile_path)
-              errors << "Berksfile at '#{@berksfile_path}' does not exist"
+              # Ensure the path exists
+              if !File.exist?(@berksfile_path)
+                errors << "Berksfile at '#{@berksfile_path}' does not exist"
+              end
             end
           end
         end
