@@ -1,3 +1,20 @@
+# 4.0.1
+
+* Bug Fixes
+  * Improved ability to find a Berksfile within a project
+
+# 4.0.0
+
+* Enhancements
+  * Add support for chef-client local mode
+
+* Bug Fixes
+  * Chef Client provider configuration attributes are now properly read from a Berkshelf configuration file
+  * Shared folder is no longer deleted and recreated on each provision
+  * `berksfile_path` config option now defaults to CWD of Vagrantfile
+  * Non-colored terminal output will be used when not available
+  * VM's Berkshelf share will be cleaned up after destroying a VM
+
 # 3.0.1
 
 * Bug Fixes
