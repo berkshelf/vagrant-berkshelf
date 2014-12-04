@@ -70,7 +70,7 @@ module VagrantPlugins
             path = File.expand_path(ENV['BERKSHELF_CONFIG'] || '~/.berkshelf/config.json')
 
             if File.exist?(path)
-              JSON.parse(File.read(), symbolize_names: true)
+              JSON.parse(File.read(path), symbolize_names: true)
             else
               {}
             end
