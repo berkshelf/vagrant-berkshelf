@@ -57,7 +57,7 @@ module VagrantPlugins
             tmpfile.rewind
             yield tmpfile.path
           ensure
-            if defined?(tmpfile)
+            if defined?(tmpfile) && !tmpfile.nil?
               tmpfile.close
               tmpfile.unlink
             end
