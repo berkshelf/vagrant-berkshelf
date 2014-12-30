@@ -7,6 +7,11 @@ module VagrantPlugins
         BERKS_REQUIREMENT = "~> 3.2"
 
         def call(env)
+          if !berkshelf_enabled?(env)
+            @logger.info "Berkshelf disabled, skipping"
+            return @app.call(env)
+          end
+
           check_berks_bin!(env)
           berkshelf_version_check!(env)
 
