@@ -23,7 +23,7 @@ module VagrantPlugins
 
       [:machine_action_up, :machine_action_reload, :machine_action_provision].each do |action|
         action_hook(:berkshelf_provision, action) do |hook|
-          hook.before(Vagrant::Action::Builtin::ConfigValidate, Action::Base.setup)
+          hook.after(Vagrant::Action::Builtin::ConfigValidate, Action::Base.setup)
           hook.before(Vagrant::Action::Builtin::Provision, Action::Base.provision)
         end
       end
