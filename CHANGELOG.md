@@ -1,3 +1,8 @@
+# 4.0.2
+
+* Bug Fixes
+  * Don't check Berkshelf version if plugin is disabled
+
 # 4.0.1
 
 * Bug Fixes
