@@ -5,7 +5,7 @@ module VagrantPlugins
     INSTALL_CHEFDK_INSTRUCTIONS = <<-EOH.freeze
 Please download and install the latest version of the ChefDK from:
 
-    https://downloads.getchef.com/chef-dk
+    https://downloads.chef.io/chef-dk
 
 and follow the installation instructions. Do not forget to add the ChefDK to
 your PATH.
