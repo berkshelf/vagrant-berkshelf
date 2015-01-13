@@ -22,7 +22,7 @@ Installation
 
 Usage
 -----
-If the Vagrant Berkshelf plugin is installed, it will intelligent detect when a
+If the Vagrant Berkshelf plugin is installed, it will intelligently detect when a
 Berksfile is present in the same working directory as the Vagrantfile.
 
 Here is an example Vagrantfile configuration section for Vagrant Berkshelf:
