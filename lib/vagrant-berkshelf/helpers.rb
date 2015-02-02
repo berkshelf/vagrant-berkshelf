@@ -118,7 +118,7 @@ module VagrantPlugins
       #
       # @return [Boolean]
       def berkshelf_enabled?(env)
-        env[:machine].config.berkshelf.enabled
+        env[:machine].config.berkshelf.enabled == true
       end
 
       # Determine if --no-provision was specified
