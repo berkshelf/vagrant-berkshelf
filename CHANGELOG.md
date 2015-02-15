@@ -1,3 +1,9 @@
+# 4.0.3
+
+* Bug Fixes
+  * Enabled plugin state is only enabled if explicitly set to boolean `true`
+  * Base setup occurs before Config validate, not after
+
 # 4.0.2
 
 * Bug Fixes
