@@ -85,10 +85,10 @@ module VagrantPlugins
               with_provision_berkshelf_config(provisioner) do |config|
                 env[:machine].ui.info "Uploading cookbooks to #{provisioner.config.chef_server_url}"
                 berks("upload",
-                  config:    config,
-                  berksfile: env[:machine].config.berkshelf.berksfile_path,
-                  force:     true,
-                  freeze:    false,
+                  config:         config,
+                  berksfile_path: env[:machine].config.berkshelf.berksfile_path,
+                  force:          true,
+                  freeze:         false,
                 )
               end
             end
