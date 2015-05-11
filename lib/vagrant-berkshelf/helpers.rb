@@ -45,6 +45,14 @@ module VagrantPlugins
           args += options[:only]
         end
 
+        if options[:freeze] == false
+          args << "--no-freeze"
+        end
+
+        if options[:force]
+          args << "--force"
+        end
+
         if !options.fetch(:args, []).empty?
           args += options[:args]
         end
