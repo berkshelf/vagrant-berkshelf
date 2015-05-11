@@ -1,3 +1,9 @@
+# 4.0.4
+
+* Bug Fixes
+  * Honor `berksfile_path` configuration option when uploading cookbooks
+  * Honor `freeze` and `force` options in all berkshelf commands
+
 # 4.0.3
 
 * Bug Fixes
