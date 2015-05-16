@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
 The Vagrant Berkshelf plugin requires Berkshelf from the Chef Development Kit.
 You can download the latest version of the Chef Development Kit from:
 
-    https://downloads.getchef.com/chef-dk
+    https://downloads.chef.io/chef-dk/
 
 Installing Berkshelf via other methods is not officially supported.
 EOH
