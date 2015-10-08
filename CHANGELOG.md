@@ -1,3 +1,7 @@
+# 4.1.0
+
+* Bump Berkshelf requirement from `~> 3.2` to `~> 4.0`
+
 # 4.0.4
 
 * Bug Fixes
