@@ -6,7 +6,7 @@ Vagrant Berkshelf is a Vagrant plugin that adds Berkshelf integration to the Che
 
 ## Installation
 
-1. Install the latest version of [Vagrant](http://www.vagrantup.com/downloads.html)
+1. Install the latest version of [Vagrant](https://www.vagrantup.com/downloads.html)
 2. Install the latest version of [ChefDK](https://downloads.chef.io/chef-dk/)
 3. Install the Vagrant Berkshelf plugin:
 
@@ -76,4 +76,4 @@ limitations under the License.
 ```
 
 [gem]: https://rubygems.org/gems/vagrant-berkshelf
-[travis]: http://travis-ci.org/berkshelf/vagrant-berkshelf
+[travis]: https://travis-ci.org/berkshelf/vagrant-berkshelf
