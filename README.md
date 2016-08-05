@@ -4,6 +4,14 @@
 
 Vagrant Berkshelf is a Vagrant plugin that adds Berkshelf integration to the Chef provisioners. Vagrant Berkshelf will automatically download and install cookbooks onto the Vagrant Virtual Machine.
 
+## vagrant-berkshelf vs. Test Kitchen
+
+This plugin was created before the development of Test Kitchen and its usefulness in a post-Test Kitchen world is questionable. We believe Test Kitchen provides a robust and stable platform for testing cookbooks and we *highly* recommend using Test Kitchen instead of Vagrant for your cookbook testing workflows.
+
+See Seth Vargo's blog post for additional information:
+https://sethvargo.com/the-future-of-vagrant-berkshelf/
+
+
 ## Installation
 
 1. Install the latest version of [Vagrant](https://www.vagrantup.com/downloads.html)
