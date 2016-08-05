@@ -22,7 +22,7 @@ module VagrantPlugins
             value = chef.config.send(:prepare_folders_config, env[:berkshelf].shelf)
 
             @logger.debug "Setting cookbooks_path = #{value.inspect}"
-            chef.config.cookbooks_path = value
+            chef.config.cookbooks_path = value + Array(chef.config.cookbooks_path)
           end
 
           @app.call(env)
