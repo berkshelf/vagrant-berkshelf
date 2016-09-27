@@ -4,7 +4,7 @@ module VagrantPlugins
   module Berkshelf
     module Action
       class Check < Base
-        BERKS_REQUIREMENT = "~> 4.0"
+        BERKS_REQUIREMENT = "~> 5.0"
 
         def call(env)
           if !berkshelf_enabled?(env)
