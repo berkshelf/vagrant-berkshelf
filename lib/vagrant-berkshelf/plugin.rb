@@ -13,7 +13,7 @@ module VagrantPlugins
   module Berkshelf
     class Plugin < Vagrant.plugin("2")
       # Require a particular version of Vagrant
-      Vagrant.require_version("~> 1.5")
+      Vagrant.require_version(">= 1.5")
 
       name "berkshelf"
       description <<-DESC
