@@ -1,5 +1,10 @@
 # vagrant-berkshelf Changelog
 
+## 5.1.2
+
+- Loosen the vagrant dependency to allow for Vagrant 2.X
+- Add deprecation warning to the readme
+
 ## 5.0.0
 
 - Bump the Ruby requirement from 1.9 to 2.2
