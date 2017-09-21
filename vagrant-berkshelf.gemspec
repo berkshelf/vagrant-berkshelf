@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   ]
   spec.description = %q{A Vagrant plugin to add Berkshelf integration to the Chef provisioners}
   spec.summary     = spec.description
-  spec.homepage    = 'https://berkshelf.com'
+  spec.homepage    = 'https://docs.chef.io/berkshelf.html'
   spec.license     = 'Apache 2.0'
 
   spec.files         = `git ls-files`.split($/)
@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
 The Vagrant Berkshelf plugin requires Berkshelf from the Chef Development Kit.
 You can download the latest version of the Chef Development Kit from:
 
-    https://downloads.chef.io/chef-dk/
+    https://downloads.chef.io/chefdk
 
 Installing Berkshelf via other methods is not officially supported.
 EOH
