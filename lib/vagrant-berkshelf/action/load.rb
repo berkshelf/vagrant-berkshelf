@@ -40,7 +40,7 @@ module VagrantPlugins
             FileUtils.mkdir_p(shelves)
           end
 
-          Dir.mktmpdir(['berkshelf', "-#{env[:machine].name}"], shelves)
+          Dir.mktmpdir('bs', shelves)
         end
       end
     end
