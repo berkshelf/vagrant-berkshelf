@@ -14,5 +14,5 @@ Spork.prefork do
 end
 
 Spork.each_run do
-  require 'vagrant-berkshelf'
+  require 'vagrant-berkshelf-nochefdk'
 end
