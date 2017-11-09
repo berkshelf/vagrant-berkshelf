@@ -27,14 +27,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 2.2.0'
 
-  spec.post_install_message = <<-EOH
-The Vagrant Berkshelf plugin requires Berkshelf from the Chef Development Kit.
-You can download the latest version of the Chef Development Kit from:
-
-    https://downloads.chef.io/chefdk
-
-Installing Berkshelf via other methods is not officially supported.
-EOH
+  spec.add_runtime_dependency 'berkshelf'
 
   spec.add_development_dependency 'spork', '~> 0.9'
   spec.add_development_dependency 'rspec', '~> 3.0'

@@ -1,5 +1,9 @@
 # vagrant-berkshelf Changelog
 
+## 6.0.0
+
+- Remove ChefDK dependency
+
 ## 5.1.2
 
 - Loosen the vagrant dependency to allow for Vagrant 2.X
