@@ -1,5 +1,5 @@
 module VagrantPlugins
   module Berkshelf
-    VERSION = "5.1.2"
+    VERSION = '6.0.0'
   end
 end

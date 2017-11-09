@@ -13,7 +13,6 @@ See Seth Vargo's blog post for additional information on Test Kitchen vs. Vagran
 ## Installation
 
 1. Install the latest version of [Vagrant](https://www.vagrantup.com/downloads.html)
-2. Install the latest version of [ChefDK](https://downloads.chef.io/chef-dk/)
 3. Install the Vagrant Berkshelf plugin:
 
   ```sh

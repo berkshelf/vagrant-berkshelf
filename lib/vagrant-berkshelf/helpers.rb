@@ -1,4 +1,5 @@
 require 'json'
+require 'open3'
 require 'vagrant/util'
 
 require_relative 'errors'
@@ -59,13 +60,11 @@ module VagrantPlugins
 
         final_command = [berks_bin, command, *args]
 
-        Vagrant::Util::Env.with_clean_env do
-          r = Subprocess.execute(*final_command)
-          if r.exit_code != 0
-            raise BerksCommandFailed.new(final_command.join(' '), r.stdout, r.stderr)
-          end
-          r
-        end
+        sanitized_env = ENV.to_h.merge('GEM_HOME' => nil, 'GEM_PATH' => nil)
+        command = final_command.join(' ')
+        out, err, status = Open3.capture3(sanitized_env, command)
+        raise BerksCommandFailed.new(command, out, err) unless status.success?
+        OpenStruct.new(stdout: out, stderr: err)
       end
 
       # The path to the Berkshelf binary on disk.
