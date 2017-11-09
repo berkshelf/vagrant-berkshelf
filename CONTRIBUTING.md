@@ -23,13 +23,13 @@ $ gem install bundler
 Clone the project
 
 ```sh
-$ git clone https://github.com/berkshelf/vagrant-berkshelf.git
+$ git clone https://github.com/berkshelf/vagrant-berkshelf-nochefdk.git
 ```
 
 and run:
 
 ```sh
-$ cd vagrant-berkshelf
+$ cd vagrant-berkshelf-nochefdk
 $ bundle install
 ```
 

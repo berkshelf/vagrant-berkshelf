@@ -1,23 +1,27 @@
-# Vagrant Berkshelf Plugin
+# Vagrant Berkshelf Plugin (without Chef DK dependency)
 
-[![Gem Version](http://img.shields.io/gem/v/vagrant-berkshelf.svg)][gem] [![Build Status](http://img.shields.io/travis/berkshelf/vagrant-berkshelf.svg)][travis]
+[![Gem Version](http://img.shields.io/gem/v/vagrant-berkshelf-nochefdk.svg)][gem] [![Build Status](http://img.shields.io/travis/spajus/vagrant-berkshelf-nochefdk.svg?branch=master)][travis]
 
 Vagrant Berkshelf is a Vagrant plugin that adds Berkshelf integration to the Chef provisioners. Vagrant Berkshelf will automatically download and install cookbooks onto the Vagrant Virtual Machine.
 
-## vagrant-berkshelf vs. Test Kitchen
+## Unofficial Fork Warning!
 
-This plugin was created before the development of Test Kitchen, which provides a much simpler and more robust cookbook testing experience. We _highly_ recommend using Test Kitchen instead of Vagrant for your cookbook testing workflows and will not be further maintaining this project. If you are interested in maintaining this project see: <https://github.com/berkshelf/vagrant-berkshelf/issues/321>
+This is a simplified fork of [Vagrant Berkshelf](https://github.com/berkshelf/vagrant-berkshelf) plugin that has a dependency on Chef DK. This version just installs `berkshelf` gem into Vagrant embedded gems directory. Works out of the box, but your mileage may vary.
 
-See Seth Vargo's blog post for additional information on Test Kitchen vs. Vagrant Berkshelf: <https://sethvargo.com/the-future-of-vagrant-berkshelf/>
+The plugin is identical to the original (up to v5.1.2), except for [this change](https://github.com/berkshelf/vagrant-berkshelf/pull/324).
+
+## vagrant-berkshelf-nochefdk vs. Test Kitchen
+
+If you are about to use this plugin for testing your chef cookbooks, stop!
+Please read the [motivation to use Test Kitchen instead](https://github.com/berkshelf/vagrant-berkshelf/tree/v5.1.2#vagrant-berkshelf-vs-test-kitchen). The only sane reason you would want to use this vagrant plugin is for bootstraping some development environments via Chef+Berkshelf, but not for testing your Chef cookbooks.
 
 ## Installation
 
 1. Install the latest version of [Vagrant](https://www.vagrantup.com/downloads.html)
-2. Install the latest version of [ChefDK](https://downloads.chef.io/chef-dk/)
 3. Install the Vagrant Berkshelf plugin:
 
   ```sh
-  $ vagrant plugin install vagrant-berkshelf
+  $ vagrant plugin install vagrant-berkshelf-nochefdk
   ```
 
 ## Usage
@@ -63,6 +67,7 @@ If you'd like to contribute, please see our [contribution guidelines](https://gi
 - Jamie Winsor (jamie@vialstudios.com)
 - Michael Ivey (michael.ivey@riotgames.com)
 - Seth Vargo (sethvargo@gmail.com)
+- Tomas Varaneckas (tomas.varaneckas@gmail.com)
 
 ```text
 Copyright (c) 2012-2014 Riot Games
@@ -80,5 +85,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-[gem]: https://rubygems.org/gems/vagrant-berkshelf
+[gem]: https://rubygems.org/gems/vagrant-berkshelf-nochefdk
 [travis]: https://travis-ci.org/berkshelf/vagrant-berkshelf
